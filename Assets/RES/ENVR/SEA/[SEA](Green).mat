@@ -204,7 +204,7 @@ Material:
     - _BigCascadeSmoothness: 0
     - _BigCascadeSpecular: 0
     - _BigCascadeSpeed: 4
-    - _BigCascadeTransparency: 0.0005
+    - _BigCascadeTransparency: 0
     - _BigCascadeWaterNormalScale: 0.9
     - _BigCascadeWaterTessScale: 0.02111
     - _CascadeFalloff: 0.84
@@ -330,7 +330,7 @@ Material:
     - _WaterShalowDepth: 3.85
     - _WaterShalowFalloff: -3.43
     - _WaterShalowTranslucencyPower: 0
-    - _WaterSmoothness: -23.99
+    - _WaterSmoothness: 1
     - _WaterSpecular: 0.1
     - _WaterSpecularClose: 0
     - _WaterSpecularFar: 0
@@ -355,7 +355,7 @@ Material:
     - _CascadeColor: {r: 20, g: 20, b: 20, a: 0}
     - _Color0: {r: 0, g: 0.6749488, b: 0.8088235, a: 0}
     - _Color1: {r: 0, g: 0.048731543, b: 0.22794023, a: 0}
-    - _DeepColor: {r: 0.058962256, g: 0.29858118, b: 0.5, a: 1}
+    - _DeepColor: {r: 0, g: 0.3463016, b: 0.6415094, a: 1}
     - _FoamColor: {r: 0, g: 0, b: 0, a: 0}
     - _FoamSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _FoamTiling: {r: 0, g: 0, b: 0, a: 0}

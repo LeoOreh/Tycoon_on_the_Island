@@ -7,6 +7,6 @@ public class Load_UI : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadSceneAsync("Land_1_stones");
+        SceneManager.LoadSceneAsync("LAND");
     }
 }

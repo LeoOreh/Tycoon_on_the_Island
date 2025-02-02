@@ -5,16 +5,11 @@ using UnityEngine;
 
 public class JSON_M : MonoBehaviour
 {
-    static string pth;
-
+    static string pth = Path.Combine(Application.persistentDataPath + "/data.json");
 
     public static void Load()
     {
         Debug.Log("Load JSON");
-
-        pth = Path.Combine(Application.persistentDataPath + "/data.json");
-
-        GL.state = new GAME_STATE();
 
 
         if (File.Exists(pth))
@@ -30,6 +25,7 @@ public class JSON_M : MonoBehaviour
             Save();
         }
     }
+
 
     public static void Save()
     {

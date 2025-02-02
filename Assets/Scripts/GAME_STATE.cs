@@ -6,8 +6,8 @@ public class GAME_STATE: MonoBehaviour
     public int money;
     public int points;
     public Resources resources = new Resources();
-    public Scene_Land_1_stone scene_Land_1_stone = new Scene_Land_1_stone();
-    public Scene_Land_2_tree scene_Land_2_stone = new Scene_Land_2_tree();
+    public Land_1_stones land_1_stones = new Land_1_stones();
+    public Land_2_tree land_2_tree = new Land_2_tree();
 
     [System.Serializable]
     public class Resources
@@ -21,7 +21,7 @@ public class GAME_STATE: MonoBehaviour
     }
 
     [System.Serializable]
-    public class Scene_Land_1_stone
+    public class Land_1_stones
     {
         public Upgrade upgrade = new Upgrade();
 
@@ -36,8 +36,8 @@ public class GAME_STATE: MonoBehaviour
             [System.Serializable]
             public class Upgrade_energy
             {
-                public int val1;
-                public int val2;
+                public int lvl;
+                public int points;
                 public int val3;
             }
             [System.Serializable]
@@ -59,7 +59,7 @@ public class GAME_STATE: MonoBehaviour
 
 
     [System.Serializable]
-    public class Scene_Land_2_tree
+    public class Land_2_tree
     {
         public Upgrade upgrade = new Upgrade();
 

@@ -21,7 +21,7 @@ public class JSON_M : MonoBehaviour
         {
             string json = File.ReadAllText(pth);
             Debug.Log(json);
-            GL.state = JsonUtility.FromJson<GAME_STATE>(json);
+            JsonUtility.FromJsonOverwrite(json, GL.state);
             Debug.Log("Json loading successful");
         }
         else

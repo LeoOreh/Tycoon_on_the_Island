@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LOAD.unity
+    guid: c16566d244cc7124c9793848e295ada6
+  - enabled: 1
+    path: Assets/Scenes/Land_1_stones.unity
+    guid: 9bd177843b4426b4fb0b17f93be511d8
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: b164ff0b32d9d284384823d6a6edf35c, type: 2}

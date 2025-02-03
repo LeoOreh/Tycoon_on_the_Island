@@ -17,9 +17,9 @@ public class GAME_STATE: MonoBehaviour
 
 
     // ресурсы
-    public Resources resources = new Resources();
+    public Resources_cls resources = new Resources_cls();
     [System.Serializable]
-    public class Resources
+    public class Resources_cls
     {
         public int stone;
         public int iron;
@@ -31,55 +31,82 @@ public class GAME_STATE: MonoBehaviour
 
 
     // острова
-    public List<Land_> lands = new List<Land_>()
+    public List<Land_cls> lands = new List<Land_cls>()
     {
-        new Land_("land_1_stones", new string[] { "energy", "cave", "warehouse", "road" }) { S = 1 },
-        new Land_("land_2_tree",   new string[] { "energy", "warehouse", "road" })         { },
+        new Land_cls("land_1_stones", new string[] { "energy", "cave", "warehouse", "road", "factory", "port" }) { S = 1 },
+        new Land_cls("land_2_tree",   new string[] { "energy", "warehouse", "road" })         { },
     };
 
     
 
 
     [System.Serializable]
-    public class Land_
+    public class Land_cls
     {
         public string name;
         public int S; // 0- не открыт 1- открыт
-        public List<Upgrade> upgrades = new List<Upgrade> { };
+        public List<BLDG_cls> buildings = new List<BLDG_cls> { };
 
-        public Land_(string _name, string[] _upgrd)
+        public Land_cls(string _name, string[] _upgrd)
         {
-            name = _name;
+            this.name = _name;
             // апгрейды
-            foreach(string s in _upgrd)
+            foreach(string nm in _upgrd)
             {
-                if (s == "energy")      { upgrades.Add(new Upgrade("energy", 0, 1,  1,  1)); };
-                if (s == "cave")        { upgrades.Add(new Upgrade("energy", 0, 1,  1,  1)); };
-                if (s == "warehouse")   { upgrades.Add(new Upgrade("energy", 0, 1, -1, -1)); };
-                if (s == "road")        { upgrades.Add(new Upgrade("energy", 0, 1, -1, -1)); };
+                if (nm == "energy")      { buildings.Add(new BLDG_cls(nm, 1,  1,  1)); };
+                if (nm == "cave")        { buildings.Add(new BLDG_cls(nm, 1,  1,  1)); };
+                if (nm == "warehouse")   { buildings.Add(new BLDG_cls(nm, 1, -1, -1)); };
+                if (nm == "road")        { buildings.Add(new BLDG_cls(nm, 1, -1, -1)); };
+                if (nm == "factory")     { buildings.Add(new BLDG_cls(nm, 1, -1, -1)); };
+                if (nm == "port")        { buildings.Add(new BLDG_cls(nm, 1, -1, -1)); };
             }
         }
  
 
         [System.Serializable]
-        public class Upgrade
+        public class BLDG_cls
         {
             public string name;
-            public int lvl;
+            public int lvl = -1;
             public int points;
+
+            //public List<Upgrade_cls> upgrades;
 
             public int books;
             public int engine;
             public int canister;
 
-            public Upgrade(string _name, int _lvl, int _books, int _engine, int _canister)
+            public BLDG_cls(string _name, int _books, int _engine, int _canister)
             {
                 this.name = _name;
-                this.lvl = _lvl;
                 this.books = _books;
                 this.engine = _engine;
                 this.canister = _canister;
             }
+
+            public class Upgrade_cls
+            {
+                public string name;
+                public int lvl;
+            }
         }       
     }
+
+
+
+    /*
+    public List<Dialog_cls> dialogs = new List<Dialog_cls>()
+    {
+        { new Dialog_cls("welcome") },
+    };
+    [System.Serializable]
+    public class Dialog_cls
+    {
+        public string name;
+        public int S;
+        public Dialog_cls(string _name)
+        {
+            this.name = _name;
+        }
+    }*/
 }

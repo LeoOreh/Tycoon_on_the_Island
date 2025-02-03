@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Click : MonoBehaviour, IPointerClickHandler
+public class Click_physic : MonoBehaviour, IPointerClickHandler
 {
     Camera cam;
 

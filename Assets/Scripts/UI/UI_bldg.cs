@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_btn_bldg : MonoBehaviour
+public class UI_bldg : MonoBehaviour
 {
     GameObject upgrade;
     Transform bldg;
+
+    public static string active_build_UI;
 
     void Start()
     {
@@ -42,6 +44,8 @@ public class UI_btn_bldg : MonoBehaviour
     {
         Debug.Log("Open_upgrade() > " + typ);
 
+        active_build_UI = typ;
+
         foreach (Transform child in upgrade.transform)
         {
             child.gameObject.SetActive(false);
@@ -64,7 +68,7 @@ public class UI_btn_bldg : MonoBehaviour
     void First_buy(string typ)
     {
         Debug.Log("First_buy() > " + typ);
-        Build_M.Build_First_BUY(typ);
+        Build_M.First_BUY(typ);
     }
     //---------------------------------------------------------------------------------------------------
 

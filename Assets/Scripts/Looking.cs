@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Looking : MonoBehaviour
@@ -13,7 +11,14 @@ public class Looking : MonoBehaviour
             if (Land.state_buildings["cave"].lvl == -1)
             {
                 // открываем покупку пещеры
-                Build_M.Build_lvl_up("cave");
+                Build_M.LVL_up("cave");
+            }
+
+            // полсе первого апгрейда пещеры открываем станцию
+            else
+            if (Land.state_buildings["energy"].lvl == -1)
+            {
+                Build_M.LVL_up("energy");
             }
         }
         else

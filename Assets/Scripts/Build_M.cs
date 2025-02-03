@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Build_M : MonoBehaviour
 {
-    public static void Build_lvl_up(string typ)
+    public static void LVL_up(string typ)
     {
         Land.state_buildings[typ].lvl++;
         int new_lvl = Land.state_buildings[typ].lvl;
@@ -28,7 +26,7 @@ public class Build_M : MonoBehaviour
     }
 
 
-    public static void Build_First_BUY(string typ)
+    public static void First_BUY(string typ)
     {
         int price = Numbers_M.Get_Price_First_BUY(typ);
 
@@ -36,7 +34,7 @@ public class Build_M : MonoBehaviour
         {
             GL_UI.coins_count -= price;
 
-            Build_lvl_up(typ);
+            LVL_up(typ);
         }
         else
         {

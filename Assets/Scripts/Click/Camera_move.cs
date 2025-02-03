@@ -27,12 +27,18 @@ public class Camera_move : MonoBehaviour, IDragHandler
     {
         touchDeltaPosition = eventData.position - lastTouchPosition;
 
-        move.x = -touchDeltaPosition.x; 
+        float screenWidth = Screen.width;
+        float normalizedDeltaX = touchDeltaPosition.x / screenWidth;
+
+        move.x = -normalizedDeltaX * 300f; 
         newPosition = cam.position + move;
 
         newPosition.x = Mathf.Clamp(newPosition.x, -2f, 3f);
 
-        if(cam.position.x - newPosition.x > 0.1f || cam.position.x - newPosition.x < 0.1f) cam.position = Vector3.Lerp(cam.position, newPosition, 0.01f);
+        if (Mathf.Abs(cam.position.x - newPosition.x) > 0.1f)
+        {
+            cam.position = Vector3.Lerp(cam.position, newPosition, 0.01f);
+        }
 
         lastTouchPosition = eventData.position;
     }

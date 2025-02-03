@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Land : MonoBehaviour
 {
-
     static Dictionary<string, GameObject> lands;
 
     static Transform land_TR;
@@ -78,9 +75,9 @@ public class Land : MonoBehaviour
 
         foreach (KeyValuePair<string, BLDG_cls> bldg in buildings) // перебераем билдер сцены
         {
-            foreach (GAME_STATE.Land_cls.BLDG_cls u in state_land.buildings) // перебераем апргейды из json
+            foreach (GAME_STATE.Land_cls.BLDG_cls u in state_land.buildings) // перебераем здания из json
             {
-                if (bldg.Key == u.name) // если компонент такой есть
+                if (bldg.Key == u.name)
                 {                    
                     if (u.lvl == -1) { bldg.Value.ui_lock.SetActive(true);         activ_lvl(0); }
                     if (u.lvl ==  0) { bldg.Value.ui_first_BUY.SetActive(true);    activ_lvl(u.lvl); }

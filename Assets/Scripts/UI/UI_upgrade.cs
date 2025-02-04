@@ -75,8 +75,11 @@ public class UI_upgrade : MonoBehaviour
             upgrades = new Dictionary<string, Upgrde_cls>();
             foreach (GAME_STATE.Land_cls.BLDG_cls.Upgrade_cls upgr in bld.upgrades)
             {
-                upgrades.Add(name + upgr.name, new Upgrde_cls(name, upgr.name, content));
+                upgrades.Add(upgr.name, new Upgrde_cls(name, upgr.name, content, upgr.points));
             }
+
+            TXT_summ = tr.Find("state/summ/TXT").GetComponent<TextMeshProUGUI>();
+            TXT_summ.text = Numbers_M.summ_upgrade(name) + "/sec";
         }
     }
 
@@ -93,11 +96,9 @@ public class UI_upgrade : MonoBehaviour
         public TextMeshProUGUI up_TXT_price;
         public TextMeshProUGUI up_TXT_point;
 
-        public int up_point_upgrade { get { return up_point_upgrade_GET_SET; } 
-                                      set { up_point_upgrade_GET_SET = value; up_TXT_point.text = value.ToString(); } }
-        int up_point_upgrade_GET_SET;
+        public int up_point_upgrade;
 
-        public Upgrde_cls(string _build, string _up_name, Transform _content)
+        public Upgrde_cls(string _build, string _up_name, Transform _content, int _point)
         {
             build = _build;
             up_name = _up_name;
@@ -112,7 +113,7 @@ public class UI_upgrade : MonoBehaviour
             up_icon        = up_TR.transform.Find("Icon");
             up_btn         = up_TR.transform.Find("Button_Upgrade").GetComponent<Button>();
             up_TXT_price   = up_TR.transform.Find("Button_Upgrade/TXT").GetComponent<TextMeshProUGUI>();
-            up_TXT_point    = up_TR.transform.Find("info").GetComponent<TextMeshProUGUI>();
+            up_TXT_point   = up_TR.transform.Find("info").GetComponent<TextMeshProUGUI>();
 
 
             foreach (Transform t in up_icon.GetComponentsInChildren<Transform>()) { t.gameObject.SetActive(false); }
@@ -120,7 +121,7 @@ public class UI_upgrade : MonoBehaviour
             up_icon.Find(up_name).gameObject.SetActive(true);
 
 
-            up_point_upgrade = Numbers_M.Get_point_upgrade(up_name);
+            up_point_upgrade = _point;
             up_TXT_point.text = up_point_upgrade.ToString();
 
             up_TXT_price.text = Numbers_M.Get_Price_Upgrade(build, up_name).ToString();
@@ -134,7 +135,7 @@ public class UI_upgrade : MonoBehaviour
         // UI кнопок апгрейд
         void Upgrade(string bld, string typ)
         {
-            Debug.Log("Upgrade() > " + typ);
+            //Debug.Log("Upgrade() > " + typ);
             Upgrade_M.LVL_up(bld, typ);
         }
     }

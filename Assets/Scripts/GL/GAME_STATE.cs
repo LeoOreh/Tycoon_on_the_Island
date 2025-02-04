@@ -11,7 +11,7 @@ public class GAME_STATE: MonoBehaviour
 
 
     // данные игрока
-    public int money = 1000; // по дефолту
+    public int money = 10000; // по дефолту
     public int points;
 
 
@@ -55,12 +55,13 @@ public class GAME_STATE: MonoBehaviour
             { 
                 foreach(string nm in _upgrd)
                 {
-                    if (nm == "energy")      { buildings.Add(new BLDG_cls(nm, new string[] { "books", "engine", "canister" })); };
-                    if (nm == "cave")        { buildings.Add(new BLDG_cls(nm, new string[] { "books", "engine", "canister" })); };
-                    if (nm == "warehouse")   { buildings.Add(new BLDG_cls(nm, new string[] { "books" })); };
-                    if (nm == "road")        { buildings.Add(new BLDG_cls(nm, new string[] { "books" })); };
-                    if (nm == "factory")     { buildings.Add(new BLDG_cls(nm, new string[] { "books", "engine" })); };
-                    if (nm == "port")        { buildings.Add(new BLDG_cls(nm, new string[] { "books", "engine", "canister" })); };
+                    // books, engine, canister, tractor, buldozer, turbo, forklift, spanner, winch, parts
+                    if (nm == "energy")      { buildings.Add(new BLDG_cls(nm, new string[] { "engine", "turbo", "spanner", "parts", "winch" })); };
+                    if (nm == "cave")        { buildings.Add(new BLDG_cls(nm, new string[] { "spanner", "tractor", "parts", "buldozer", "canister" })); };
+                    if (nm == "warehouse")   { buildings.Add(new BLDG_cls(nm, new string[] { "spanner", "forklift", "tractor", "turbo", "books" })); };
+                    if (nm == "road")        { buildings.Add(new BLDG_cls(nm, new string[] { "books", "buldozer", "tractor", "parts" })); };
+                    if (nm == "factory")     { buildings.Add(new BLDG_cls(nm, new string[] { "spanner", "books", "tractor", "canister" })); };
+                    if (nm == "port")        { buildings.Add(new BLDG_cls(nm, new string[] { "canister", "books", "winch", "spanner" })); };
                 }
             }
             else
@@ -92,7 +93,12 @@ public class GAME_STATE: MonoBehaviour
                 //this.list_upgrd = _upgrades;
 
                 upgrades = new List<Upgrade_cls>();
-                foreach (var nm in _upgrades) { upgrades.Add(new Upgrade_cls(nm)); }
+                int point = 1;
+                foreach (var nm in _upgrades) 
+                { 
+                    upgrades.Add(new Upgrade_cls(nm,  point)); 
+                    point *= 5;
+                }
             }
 
 
@@ -101,10 +107,12 @@ public class GAME_STATE: MonoBehaviour
             public class Upgrade_cls
             {
                 public string name;
-                public int lvl;
-                public Upgrade_cls(string name)
+                public int lvl = 1;
+                public int points;
+                public Upgrade_cls(string name, int _point)
                 {
                     this.name = name;
+                    this.points = _point;
                 }
             }
         }       

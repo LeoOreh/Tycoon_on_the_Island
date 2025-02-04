@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 public class Numbers_M : MonoBehaviour
@@ -23,49 +24,62 @@ public class Numbers_M : MonoBehaviour
     {
         //Debug.Log(build + " > " + typ);
 
-        float price = 20;
+        float price = 1;
         float Q = 1;
         float Q2 = 1;
         float lvl = 1;
+        float point = 5;
 
-        if (build == "energy")    { Q = 1.3f; } else
         if (build == "cave")      { Q = 1.0f; } else
-        if (build == "warehouse") { Q = 1.8f; } else
-        if (build == "road")      { Q = 2.5f; } else
-        if (build == "factory")   { Q = 3.4f; } else
-        if (build == "port")      { Q = 4.1f; }
+        if (build == "energy")    { Q = 1.5f; } else
+        if (build == "warehouse") { Q = 2.5f; } else
+        if (build == "road")      { Q = 3.5f; } else
+        if (build == "factory")   { Q = 5.5f; } else
+        if (build == "port")      { Q = 8.0f; }
 
-        if (typ == "books")     { Q2 = 1.15f; } else
-        if (typ == "engine")    { Q2 = 5.83f; } else
-        if (typ == "canister")  { Q2 = 9.25f; } else
-        if (typ == "cccc")      { Q2 = 1.19f; } else
-        if (typ == "ccccccc")   { Q2 = 1.21f; } else
-        if (typ == "cccc")      { Q2 = 1.29f; } 
+        // books, engine, canister, tractor, buldozer, turbo, forklift, spanner, winch, parts
+        if (typ == "books")     { Q2 = 1.05f; } else
+        if (typ == "engine")    { Q2 = 1.06f; } else
+        if (typ == "canister")  { Q2 = 1.02f; } else
+        if (typ == "tractor")   { Q2 = 1.04f; } else
+        if (typ == "buldozer")  { Q2 = 1.08f; } else
+        if (typ == "turbo")     { Q2 = 1.03f; } else
+        if (typ == "forklift")  { Q2 = 1.05f; } else
+        if (typ == "spanner")   { Q2 = 1.01f; } else
+        if (typ == "winch")     { Q2 = 1.10f; } else
+        if (typ == "parts")     { Q2 = 1.07f; } 
 
         foreach (GAME_STATE.Land_cls.BLDG_cls.Upgrade_cls up in Land.state_buildings[build].upgrades)
         {
-            if (up.name == typ) { lvl = up.lvl; }
+            if (up.name == typ) 
+            {
+                lvl = up.lvl ;
+                point = up.points; 
+                //Debug.Log(lvl);
+            }
         }
 
-        price = ((price * Q) + (price * lvl / 4)) * Q2;
+        price = price + point + (point * 5 * ((lvl / 2) + 1) );
+        price = price * Q * Q2;
+        price = price * ((lvl / 6) + 1);
 
+        if (price <= 0) Debug.Log(build + " " + typ + " " + lvl + " " + point + " " + Q + " " + Q2);
 
         return (int)price;
     }
 
 
 
-    public static int Get_point_upgrade(string typ)
+
+    public static int summ_upgrade(string build)
     {
-        int p = 199;
+        int summ = 0;
 
-        if (typ == "books")     { p = 1; } else
-        if (typ == "engine")    { p = 5; } else
-        if (typ == "canister")  { p = 10; } else
-        if (typ == "cccc")      { p = 20; } else
-        if (typ == "ccccccc")   { p = 35; } else
-        if (typ == "cccc")      { p = 50; } 
-
-        return p;
+        foreach (GAME_STATE.Land_cls.BLDG_cls.Upgrade_cls up in Land.state_buildings[build].upgrades)
+        {
+            summ += (up.lvl - 1) * up.points;
+        }
+        Debug.Log(summ);
+        return summ;
     }
 }

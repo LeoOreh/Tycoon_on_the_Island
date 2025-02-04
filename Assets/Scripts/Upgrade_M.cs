@@ -6,7 +6,6 @@ public class Upgrade_M : MonoBehaviour
     public static void LVL_up(string build, string typ)
     {
         int price = Numbers_M.Get_Price_Upgrade(build, typ);
-        Debug.Log(price);
 
         if (GL_UI.coins_count >= price)
         {
@@ -16,15 +15,11 @@ public class Upgrade_M : MonoBehaviour
             {
                 if(up.name == typ)
                 {
-                    up.lvl++;
+                    up.lvl++; 
 
-                    foreach (KeyValuePair<string, UI_upgrade.Upgrde_cls> ui_up in UI_upgrade.bldg[build].upgrades)
-                    {
-                        if(ui_up.Key == typ)
-                        {
-                            ui_up.Value.up_TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
-                        }
-                    }
+                    UI_upgrade.bldg[build].upgrades[typ].up_TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
+                    UI_upgrade.bldg[build].TXT_summ.text = Numbers_M.summ_upgrade(build) + "/sec";
+
 
                     JSON_M.Save();
 

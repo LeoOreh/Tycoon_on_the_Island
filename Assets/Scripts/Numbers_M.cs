@@ -21,7 +21,7 @@ public class Numbers_M : MonoBehaviour
 
     public static int Get_Price_Upgrade(string build, string typ)
     {
-        Debug.Log(build + " > " + typ);
+        //Debug.Log(build + " > " + typ);
 
         float price = 20;
         float Q = 1;

@@ -18,11 +18,11 @@ public class Upgrade_M : MonoBehaviour
                 {
                     up.lvl++;
 
-                    foreach (KeyValuePair<string, UI_upgrade.Upgrde_cls> ui_up in UI_upgrade.upgrades)
+                    foreach (KeyValuePair<string, UI_upgrade.Upgrde_cls> ui_up in UI_upgrade.bldg[build].upgrades)
                     {
-                        if(ui_up.Key == build + typ)
+                        if(ui_up.Key == typ)
                         {
-                            ui_up.Value.TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
+                            ui_up.Value.up_TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
                         }
                     }
 

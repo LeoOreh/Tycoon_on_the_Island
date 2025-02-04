@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class UI_upgrade : MonoBehaviour
 {
     Transform upgrade_TR;
-    public static Dictionary<string, Upgrde_cls> upgrades;
+    public static Dictionary<string, BLDG_cls> bldg;
+
 
     void Start()
     {
         upgrade_TR = transform.Find("Upgrade");
         upgrade_TR.gameObject.SetActive(false);
 
-        upgrades = new Dictionary<string, Upgrde_cls>();
+
+        bldg = new Dictionary<string, BLDG_cls>();
 
 
         foreach (GAME_STATE.Land_cls lnd in GL.state.lands)
@@ -32,75 +34,97 @@ public class UI_upgrade : MonoBehaviour
 
 
     void ADD(GAME_STATE.Land_cls.BLDG_cls bld)
-    {
-        string _pth_content = "/panel/Scroll View/Viewport/Content";
-
+    {           
         Transform tr    = Instantiate(upgrade_TR.Find("_default"), upgrade_TR);
-        tr.localScale   = Vector3.one;
-        tr.name         = bld.name;
-        tr.gameObject.SetActive(false);
-
-
-        foreach (Transform t in tr.Find("icon").GetComponentsInChildren<Transform>()) { t.gameObject.SetActive(false); }
-        tr.Find("icon").gameObject.SetActive(true);
-        tr.Find("icon/" + bld.name).gameObject.SetActive(true);
-
-
-        int _lvl = bld.lvl; 
-        if (_lvl <= 0) { _lvl = 1; }
-        tr.Find("icon/" + bld.name + "/" + _lvl).gameObject.SetActive(true);
-
-
-        Debug.Log(bld.name);
-
-        foreach (GAME_STATE.Land_cls.BLDG_cls.Upgrade_cls upgr in bld.upgrades)
-        {
-            upgrades.Add(bld.name + upgr.name, new Upgrde_cls(bld.name, upgr.name, upgrade_TR.Find(bld.name + _pth_content)));
-        }
+        bldg[bld.name] = new BLDG_cls(bld.name, tr, bld);
     }
 
+
+
+    public class BLDG_cls
+    {
+        public string name;
+        public Transform tr;
+        public Transform icon;
+        public Transform content;
+
+        public TextMeshProUGUI TXT_summ;
+        public TextMeshProUGUI TXT_lvl;
+
+        public Dictionary<string, Upgrde_cls> upgrades;
+
+        public BLDG_cls(string _name, Transform _tr, GAME_STATE.Land_cls.BLDG_cls bld)
+        {
+            tr = _tr;
+            name = _name;
+
+            tr.localScale = Vector3.one;
+            tr.name = name;
+            tr.gameObject.SetActive(false);
+
+            icon = tr.Find("icon");
+            foreach (Transform t in icon.GetComponentsInChildren<Transform>()) { t.gameObject.SetActive(false); }
+            icon.gameObject.SetActive(true);
+            icon.Find(name).gameObject.SetActive(true);
+            icon.Find(name + "/" + 1).gameObject.SetActive(true);
+
+            string _pth_content = "panel/Scroll View/Viewport/Content";
+            content = tr.Find(_pth_content);
+
+
+            upgrades = new Dictionary<string, Upgrde_cls>();
+            foreach (GAME_STATE.Land_cls.BLDG_cls.Upgrade_cls upgr in bld.upgrades)
+            {
+                upgrades.Add(name + upgr.name, new Upgrde_cls(name, upgr.name, content));
+            }
+        }
+    }
 
 
 
     public class Upgrde_cls
     {
         public string build;
-        public string typ;
+        public string up_name;
 
-        public Transform TR;
-        public Transform icon;
-        public Button btn;
-        public TextMeshProUGUI TXT_price;
-        public TextMeshProUGUI TXT_info;
-        public int point_upgrade;
+        public Transform up_TR;
+        public Transform up_icon;
+        public Button up_btn;
+        public TextMeshProUGUI up_TXT_price;
+        public TextMeshProUGUI up_TXT_point;
 
-        public Upgrde_cls(string _build, string _typ, Transform _content)
+        public int up_point_upgrade { get { return up_point_upgrade_GET_SET; } 
+                                      set { up_point_upgrade_GET_SET = value; up_TXT_point.text = value.ToString(); } }
+        int up_point_upgrade_GET_SET;
+
+        public Upgrde_cls(string _build, string _up_name, Transform _content)
         {
             build = _build;
-            typ = _typ;
+            up_name = _up_name;
 
 
-            TR = Instantiate(_content.Find("_default") , _content);
-            TR.gameObject.SetActive(true);
-            TR.name = _typ;
-            TR.localScale = Vector3.one;
+            up_TR = Instantiate(_content.Find("_default"), _content);
+            up_TR.gameObject.SetActive(true);
+            up_TR.name = up_name;
+            up_TR.localScale = Vector3.one;
 
 
-            icon        = TR.transform.Find("Icon");
-            btn         = TR.transform.Find("Button_Upgrade").GetComponent<Button>();
-            TXT_price   = TR.transform.Find("Button_Upgrade/TXT").GetComponent<TextMeshProUGUI>();
-            TXT_info    = TR.transform.Find("info").GetComponent<TextMeshProUGUI>();
+            up_icon        = up_TR.transform.Find("Icon");
+            up_btn         = up_TR.transform.Find("Button_Upgrade").GetComponent<Button>();
+            up_TXT_price   = up_TR.transform.Find("Button_Upgrade/TXT").GetComponent<TextMeshProUGUI>();
+            up_TXT_point    = up_TR.transform.Find("info").GetComponent<TextMeshProUGUI>();
 
 
-            foreach (Transform t in icon.GetComponentsInChildren<Transform>()) { t.gameObject.SetActive(false); }
-            icon.gameObject.SetActive(true);
-            icon.Find(typ).gameObject.SetActive(true);
+            foreach (Transform t in up_icon.GetComponentsInChildren<Transform>()) { t.gameObject.SetActive(false); }
+            up_icon.gameObject.SetActive(true);
+            up_icon.Find(up_name).gameObject.SetActive(true);
 
 
-            point_upgrade = Numbers_M.Get_point_upgrade(typ);
+            up_point_upgrade = Numbers_M.Get_point_upgrade(up_name);
+            up_TXT_point.text = up_point_upgrade.ToString();
 
-            TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
-            btn.onClick.AddListener(() => Upgrade(build, typ));
+            up_TXT_price.text = Numbers_M.Get_Price_Upgrade(build, up_name).ToString();
+            up_btn.onClick.AddListener(() => Upgrade(build, up_name));
 
             _content.Find("_default").gameObject.SetActive(false);
         }

@@ -5,50 +5,37 @@ using UnityEngine.UI;
 
 public class UI_upgrade : MonoBehaviour
 {
-    GameObject upgrade_TR;
+    Transform upgrade_TR;
     public static Dictionary<string, Upgrde_cls> upgrades;
 
     void Start()
     {
-        upgrade_TR = transform.Find("Upgrade").gameObject;
-        upgrades = new Dictionary<string, Upgrde_cls>();
+        upgrade_TR = transform.Find("Upgrade");
 
-        // init UI кнопок апгрейд
-        Button[] upgrd_btns = upgrade_TR.GetComponentsInChildren<Button>(true);
-        foreach (Button btn in upgrd_btns)
+        upgrades = new Dictionary<string, Upgrde_cls>();
+        string _pth = "/panel/Scroll View/Viewport/Content";
+
+        foreach (GAME_STATE.Land_cls lnd in GL.state.lands)
         {
-            if (btn.name == "Button_Upgrade" && btn.transform.parent.parent.name == "Content")
+            if (lnd.name == GL.state.active_land)
             {
-                btn.onClick.AddListener(() => Upgrade(btn.transform.parent.name));
-                Set_price(btn.transform.Find("TXT").GetComponent<TextMeshProUGUI>());
+                foreach (GAME_STATE.Land_cls.BLDG_cls bld in lnd.buildings)
+                {
+                    /*
+                    Transform tr = Instantiate(Resources.Load<GameObject>("UI/UI_upgrade_BLK")).transform;
+                    tr.SetParent(upgrade_TR);
+                    tr.localScale = Vector3.one;
+                    tr.name = bld.name;
+                    tr.gameObject.SetActive(false);*/
+
+                    foreach (GAME_STATE.Land_cls.BLDG_cls.Upgrade_cls upgr in bld.upgrades)
+                    {
+                        upgrades.Add(bld.name + upgr.name, new Upgrde_cls(bld.name, upgr.name, upgrade_TR.Find(bld.name + _pth)));
+                    }
+                }
             }
         }
     }
-
-
-
-
-    //---------------------------------------------------------------------------------------------------
-    // UI кнопок апгрейд
-    void Upgrade( string typ)
-    {
-        Debug.Log("Upgrade() > " + typ);
-        Upgrade_M.LVL_up(UI_bldg.active_build_UI, typ);
-    }
-    //---------------------------------------------------------------------------------------------------
-
-
-    void Set_price(TextMeshProUGUI txt)
-    {
-        string build = txt.transform.parent.parent.parent.parent.parent.parent.parent.name;
-        string typ = txt.transform.parent.parent.name;
-
-        txt.text = Numbers_M.Get_Price_Upgrade(build,typ ).ToString();
-
-        upgrades.Add(build + typ, new Upgrde_cls(build, typ, txt));
-    }
-
-
 
 
 
@@ -57,12 +44,42 @@ public class UI_upgrade : MonoBehaviour
     {
         public string build;
         public string typ;
-        public TextMeshProUGUI TXT;
-        public Upgrde_cls(string _build, string _typ, TextMeshProUGUI _TXT)
+
+        public Transform TR;
+        public Image icon;
+        public Button btn;
+        public TextMeshProUGUI TXT_price;
+        public TextMeshProUGUI TXT_info;
+        public int point_upgrade;
+
+        public Upgrde_cls(string _build, string _typ, Transform _content)
         {
             build = _build;
             typ = _typ;
-            TXT = _TXT;
+
+            TR = Instantiate(Resources.Load<GameObject>("UI/UI_upgrade")).transform;
+            TR.SetParent(_content);
+            TR.name = _typ;
+            TR.localScale = Vector3.one;
+
+            icon        = TR.transform.Find("Icon").GetComponent<Image>();
+            btn         = TR.transform.Find("Button_Upgrade").GetComponent<Button>();
+            TXT_price   = TR.transform.Find("Button_Upgrade/TXT").GetComponent<TextMeshProUGUI>();
+            TXT_info    = TR.transform.Find("info").GetComponent<TextMeshProUGUI>();
+
+            point_upgrade = Numbers_M.Get_point_upgrade(typ);
+
+            TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
+            btn.onClick.AddListener(() => Upgrade(build, typ));
+        }
+
+
+
+        // UI кнопок апгрейд
+        void Upgrade(string bld, string typ)
+        {
+            Debug.Log("Upgrade() > " + typ);
+            Upgrade_M.LVL_up(bld, typ);
         }
     }
 }

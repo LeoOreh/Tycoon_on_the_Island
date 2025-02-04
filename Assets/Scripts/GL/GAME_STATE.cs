@@ -82,12 +82,14 @@ public class GAME_STATE: MonoBehaviour
             public string name;
             public int lvl = -1;
             public int points;
+            //public string[] list_upgrd;
 
             public List<Upgrade_cls> upgrades;
 
             public BLDG_cls(string _name, string[] _upgrades)
             {
                 this.name = _name;
+                //this.list_upgrd = _upgrades;
 
                 upgrades = new List<Upgrade_cls>();
                 foreach (var nm in _upgrades) { upgrades.Add(new Upgrade_cls(nm)); }

@@ -22,7 +22,7 @@ public class Upgrade_M : MonoBehaviour
                     {
                         if(ui_up.Key == build + typ)
                         {
-                            ui_up.Value.TXT.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
+                            ui_up.Value.TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
                         }
                     }
 

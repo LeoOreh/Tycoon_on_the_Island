@@ -52,4 +52,20 @@ public class Numbers_M : MonoBehaviour
 
         return (int)price;
     }
+
+
+
+    public static int Get_point_upgrade(string typ)
+    {
+        int p = 199;
+
+        if (typ == "books")     { p = 1; } else
+        if (typ == "engine")    { p = 5; } else
+        if (typ == "canister")  { p = 10; } else
+        if (typ == "cccc")      { p = 20; } else
+        if (typ == "ccccccc")   { p = 35; } else
+        if (typ == "cccc")      { p = 50; } 
+
+        return p;
+    }
 }

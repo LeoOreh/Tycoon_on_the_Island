@@ -9,6 +9,7 @@ public class Land : MonoBehaviour
     static Transform land_TR;
     static Transform buildings_TR;
     public static Dictionary<string, BLDG_cls> buildings;
+    static Transform envr, envr_bld;
 
     // ссылки для избежания постоянных переборов
     public static GAME_STATE.Land_cls state_land; // данные актуального острова
@@ -39,9 +40,13 @@ public class Land : MonoBehaviour
         }
         else { Debug.LogError("Land.I(): wrong name!!! : " + new_land_name); }
 
-
         GL.state.active_land = new_land_name;
+        //-----------------------------------------------------------------------------------------------------------------
 
+
+
+        //-----------------------------------------------------------------------------------------------------------------
+        // ссылки для избежания постоянных переборов
         foreach (GAME_STATE.Land_cls l in GL.state.lands)
         {
             if (l.name == GL.state.active_land)  // ищем актуальный остров
@@ -49,13 +54,20 @@ public class Land : MonoBehaviour
                 state_land = l;
             }
         }
+        state_buildings = new Dictionary<string, GAME_STATE.Land_cls.BLDG_cls>();
+        foreach (GAME_STATE.Land_cls.BLDG_cls b in state_land.buildings)
+        {
+            state_buildings.Add(b.name, b);
+        }
         //-----------------------------------------------------------------------------------------------------------------
-        
+
 
 
         //-----------------------------------------------------------------------------------------------------------------
         // pth
-        land_TR      = lands[GL.state.active_land].transform;
+        land_TR      = lands[GL.state.active_land].transform; 
+        envr         = land_TR.Find("envr");
+        envr_bld     = envr.Find("bld");
         buildings_TR = land_TR.Find("buildings");
 
         buildings = new Dictionary<string, BLDG_cls>();
@@ -70,7 +82,7 @@ public class Land : MonoBehaviour
 
 
         //-----------------------------------------------------------------------------------------------------------------
-        // init scene
+        // init bld scene
         if (state_land == null) { Debug.LogError("scene init error, scene not found in json"); return; }
 
         foreach (KeyValuePair<string, BLDG_cls> bldg in buildings) // перебераем билдер сцены
@@ -87,31 +99,35 @@ public class Land : MonoBehaviour
                 }
             }
         }
-
-
-        state_buildings = new Dictionary<string, GAME_STATE.Land_cls.BLDG_cls>();
-        foreach (GAME_STATE.Land_cls.BLDG_cls b in state_land.buildings) 
-        {
-            state_buildings.Add(b.name, b);
-        }
         //-----------------------------------------------------------------------------------------------------------------
     }
 
     public class BLDG_cls
     {
+
+
+        public string typ;
         public GameObject GO;
         public Transform TR;
+        public Transform POS;
+
         public GameObject ui;
         public GameObject ui_upgrade;
         public GameObject ui_first_BUY;
         public TextMeshProUGUI ui_first_BUY_price;
         public GameObject ui_lock;
-        public Dictionary<int, GameObject> build_lvl = new Dictionary<int, GameObject>();
 
-        public BLDG_cls(string _name, int _lvl)
+        public Dictionary<int, GameObject> build_lvl = new Dictionary<int, GameObject>();
+        public Dictionary<string, GameObject> envr_add = new Dictionary<string, GameObject>();
+
+
+        public BLDG_cls(string _typ, int _lvl)
         {
-            GO = buildings_TR.Find(_name).gameObject;                         GO.SetActive(true);
+            typ = _typ;
+
+            GO = buildings_TR.Find(typ).gameObject;                         GO.SetActive(true);
             TR = GO.transform;
+            POS = TR.Find("POS"); POS.gameObject.SetActive(false);
 
             ui           = TR.Find("UI").gameObject;                        ui.SetActive(true);
             ui_upgrade   = ui.transform.Find("upgrade").gameObject;         ui_upgrade.SetActive(false);
@@ -120,12 +136,31 @@ public class Land : MonoBehaviour
 
             // цена первой покупки
             ui_first_BUY_price = ui_first_BUY.transform.Find("TXT").GetComponent<TextMeshProUGUI>();
-            ui_first_BUY_price.text = Numbers_M.Get_Price_First_BUY(_name).ToString();
+            ui_first_BUY_price.text = Numbers_M.Get_Price_First_BUY(typ).ToString();
 
             for (int i = 0; i <= _lvl; i++)
             {
                 build_lvl[i] = TR.Find(i.ToString()).gameObject; 
                 build_lvl[i].SetActive(false);
+            }
+
+
+            
+
+            if(typ == "energy")
+            {
+                string nm_add = "electro";
+                envr_add[nm_add] = envr_bld.Find(typ + "/" + nm_add).gameObject; 
+                if (state_buildings[typ].lvl > 0) 
+                { envr_add[nm_add].SetActive(true); } 
+                else { envr_add[nm_add].SetActive(false); }
+            }
+            else
+            if(typ == "cave")
+            {
+                string nm_add = "smoke";
+                envr_add[nm_add] = envr_bld.Find(typ + "/" + nm_add).gameObject;
+                if (state_buildings[typ].lvl > 0) { envr_add[nm_add].SetActive(true); } else { envr_add[nm_add].SetActive(false); }
             }
         }
     }

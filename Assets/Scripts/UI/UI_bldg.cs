@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,7 +69,26 @@ public class UI_bldg : MonoBehaviour
     void First_buy(string typ)
     {
         Debug.Log("First_buy() > " + typ);
+
+        Transform pos = Land.buildings[typ].POS;
+        Transform fx = Instantiate(Resources.Load<GameObject>(Resources_PTH.FX_build), pos.position, Quaternion.identity).transform;
+        Destroy(fx.gameObject, 5);
+        
+        Land.buildings[typ].ui_first_BUY.SetActive(false);
+
+        StartCoroutine(IE_First_buy(typ));
+    }
+
+    IEnumerator IE_First_buy(string typ)
+    {
+        yield return new WaitForSeconds(2);
+
+        Debug.Log("Invoke_First_buy() > " + typ);
+
         Build_M.First_BUY(typ);
+
+        if (typ == "energy") { Land.buildings[typ].envr_add["electro"].SetActive(true); }
+        if (typ == "cave") { Land.buildings[typ].envr_add["smoke"].SetActive(true); }
     }
     //---------------------------------------------------------------------------------------------------
 

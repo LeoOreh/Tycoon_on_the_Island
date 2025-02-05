@@ -1,8 +1,10 @@
-using System.Collections.Generic;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Upgrade_M : MonoBehaviour
 {
+    static Coroutine activeCoroutine;
     public static void LVL_up(string build, string typ)
     {
         int price = Numbers_M.Get_Price_Upgrade(build, typ);
@@ -15,11 +17,18 @@ public class Upgrade_M : MonoBehaviour
             {
                 if(up.name == typ)
                 {
-                    up.lvl++; 
+                    up.lvl++;
 
-                    UI_upgrade.bldg[build].upgrades[typ].up_TXT_price.text = Numbers_M.Get_Price_Upgrade(build, typ).ToString();
-                    UI_upgrade.bldg[build].TXT_summ.text = Numbers_M.summ_upgrade(build) + "/sec";
+                    price = Numbers_M.Get_Price_Upgrade(build, typ);
+                    UI_upgrade.bldg[build].upgrades[typ].up_TXT_price.text = price.ToString();
 
+                    int summ = Numbers_M.summ_upgrade(build);
+                    UI_upgrade.bldg[build].TXT_summ.text = summ.ToString();
+
+                    if (activeCoroutine != null) { GL.state.StopCoroutine(activeCoroutine); }
+
+                    //UI_upgrade.bldg[build].fill.localScale = new Vector3(fill, 1, 1);
+                    activeCoroutine = GL.state.StartCoroutine(fill_(build, summ));
 
                     JSON_M.Save();
 
@@ -32,4 +41,30 @@ public class Upgrade_M : MonoBehaviour
             Debug.Log("not enough money");
         }
     }
+
+    static IEnumerator fill_(string build, int summ)
+    {
+        bool act = true;
+        float TS = Time.time;
+        float fill = Numbers_M.upgrade_fill(build, summ);
+        Transform tr = UI_upgrade.bldg[build].fill;
+
+        while (act)
+        {
+            if (fill < tr.localScale.x) { fill += 1; }
+
+            tr.localScale = Vector3.Lerp(tr.localScale, new Vector3(fill, 1, 1), 0.5f);
+
+            if(tr.localScale.x >= 1) { fill -= 1; tr.localScale = new Vector3(0, 1, 1); }
+
+            if(Time.time > TS + 2) { act = false; }
+
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
 }
+//int lvl = Numbers_M.upgrade_lvl(bld, summ);
+//UI_upgrade.bldg[bld].TXT_lvl.text = lvl.ToString();
+//int lvl = Numbers_M.upgrade_lvl(bld, summ);
+//UI_upgrade.bldg[bld].TXT_lvl.text = lvl.ToString();

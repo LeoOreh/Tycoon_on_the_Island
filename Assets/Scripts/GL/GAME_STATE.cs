@@ -82,7 +82,6 @@ public class GAME_STATE: MonoBehaviour
         {
             public string name;
             public int lvl = -1;
-            public int points;
             //public string[] list_upgrd;
 
             public List<Upgrade_cls> upgrades;

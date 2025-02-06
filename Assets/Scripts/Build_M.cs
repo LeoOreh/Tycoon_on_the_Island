@@ -9,6 +9,7 @@ public class Build_M : MonoBehaviour
 
         Land.state_buildings[typ].lvl++;
         int new_lvl = Land.state_buildings[typ].lvl;
+        JSON_M.Save();
 
 
         // актуализация версии здания на сцене
@@ -26,14 +27,19 @@ public class Build_M : MonoBehaviour
 
 
         int summ = Numbers_M.summ_upgrade(typ);
-        //UI_upgrade.bldg[typ].fill.localScale = new Vector3(Numbers_M.upgrade_fill(typ, Numbers_M.summ_upgrade(typ)), 1, 1);
-        if (Upgrade_M.activeCoroutine != null) { GL.state.StopCoroutine(Upgrade_M.activeCoroutine); }
-        Upgrade_M.activeCoroutine = GL.state.StartCoroutine(Upgrade_M.fill_(typ, summ));
+        if (UI_upgrade.bldg[typ].tr.gameObject.activeInHierarchy)
+        {
+            //UI_upgrade.bldg[typ].fill.localScale = new Vector3(Numbers_M.upgrade_fill(typ, Numbers_M.summ_upgrade(typ)), 1, 1);
+            if (Upgrade_M.activeCoroutine != null) { GL.state.StopCoroutine(Upgrade_M.activeCoroutine); }
+            Upgrade_M.activeCoroutine = GL.state.StartCoroutine(Upgrade_M.fill_(typ, summ));
+        }
+        else
+        {
+            UI_upgrade.bldg[typ].fill.localScale = new Vector3(Numbers_M.upgrade_fill(typ, Numbers_M.summ_upgrade(typ)), 1, 1);
+        }
 
         UI_upgrade.bldg[typ].TXT_lvl.text = Land.state_buildings[typ].lvl.ToString();
         
-
-
         JSON_M.Save();
     }
 

@@ -91,7 +91,7 @@ public class Numbers_M : MonoBehaviour
         float a = 0;
         float b = 0;
         float Q = 1;
-        int lvl = Land.state_buildings[bld].lvl ;
+        int lvl = Land.state_buildings[bld].lvl;
         int i_ = 0;
 
         if (bld == "cave")      { Q = 1.0f; } else
@@ -108,11 +108,11 @@ public class Numbers_M : MonoBehaviour
             if (summ < x) { b = x; break; }
         }
 
+        if(i_ < lvl) { i_ = lvl; }
 
-        float result = (summ - a) / (b - a);
-        result = result + i_;
-        result = result - lvl;
-        Debug.Log("i_: " + i_.ToString() + ", lvl: " + lvl.ToString() + ", result: " + result.ToString());
+        float result1 = (summ - a) / (b - a);
+        float result = result1 + i_ - lvl;
+        Debug.Log("bld: " + bld + " i_: " + i_.ToString() + ", lvl: " + lvl.ToString() + ", result: " + result.ToString() + ", result1: " + result1.ToString());
 
         return result;
     }

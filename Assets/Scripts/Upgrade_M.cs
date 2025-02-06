@@ -25,9 +25,9 @@ public class Upgrade_M : MonoBehaviour
                     int summ = Numbers_M.summ_upgrade(build);
                     UI_upgrade.bldg[build].TXT_summ.text = summ.ToString();
 
-                    if (activeCoroutine != null) { GL.state.StopCoroutine(activeCoroutine); }
 
                     //UI_upgrade.bldg[build].fill.localScale = new Vector3(fill, 1, 1);
+                    if (activeCoroutine != null) { GL.state.StopCoroutine(activeCoroutine); }
                     activeCoroutine = GL.state.StartCoroutine(fill_(build, summ));
 
                     JSON_M.Save();
@@ -45,7 +45,7 @@ public class Upgrade_M : MonoBehaviour
 
 
     public static Coroutine activeCoroutine;
-    static IEnumerator fill_(string build, int summ)
+    public static IEnumerator fill_(string build, int summ)
     {
         bool act = true;
         float TS = Time.time;

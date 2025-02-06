@@ -24,10 +24,12 @@ public class Build_M : MonoBehaviour
         if (new_lvl == 0) { Land.buildings[typ].ui_first_BUY.SetActive(true); } else
         if (new_lvl >  0) { Land.buildings[typ].ui_upgrade.SetActive(true); }
 
-        if (Upgrade_M.activeCoroutine == null)
-        {
-            UI_upgrade.bldg[typ].fill.localScale = new Vector3(Numbers_M.upgrade_fill(typ, Numbers_M.summ_upgrade(typ)), 1, 1);
-        }
+
+        int summ = Numbers_M.summ_upgrade(typ);
+        //UI_upgrade.bldg[typ].fill.localScale = new Vector3(Numbers_M.upgrade_fill(typ, Numbers_M.summ_upgrade(typ)), 1, 1);
+        if (Upgrade_M.activeCoroutine != null) { GL.state.StopCoroutine(Upgrade_M.activeCoroutine); }
+        Upgrade_M.activeCoroutine = GL.state.StartCoroutine(Upgrade_M.fill_(typ, summ));
+
         UI_upgrade.bldg[typ].TXT_lvl.text = Land.state_buildings[typ].lvl.ToString();
         
 

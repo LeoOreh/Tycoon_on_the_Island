@@ -24,8 +24,8 @@ public class Land : MonoBehaviour
 
         // init
         I(GL.state.active_land);
-        land_TR.Find("UI").GetComponent<UI_bldg>().I();
-        land_TR.Find("UI").GetComponent<UI_upgrade>().I();
+        land_TR.Find("UI").GetComponent<UI_bld_btn>().I();
+        land_TR.Find("UI").GetComponent<UI_upgrade_I>().I();
 
         Looking.I();
     }
@@ -96,9 +96,13 @@ public class Land : MonoBehaviour
                 {                    
                     if (u.lvl == -1) { bldg.Value.ui_lock.SetActive(true);         activ_lvl(0); }
                     if (u.lvl ==  0) { bldg.Value.ui_first_BUY.SetActive(true);    activ_lvl(u.lvl); }
-                    if (u.lvl >   0) { bldg.Value.ui_upgrade.SetActive(true);      activ_lvl(u.lvl); }
+                    if (u.lvl >   0) 
+                    { 
+                        bldg.Value.ui_upgrade.SetActive(true);                     activ_lvl(u.lvl); 
+                        if(u.all_res > 0) { bldg.Value.ui_inside.SetActive(true); }
+                    }
 
-                    void activ_lvl(int n) { bldg.Value.build_lvl[n].SetActive(true); }
+                    void activ_lvl(int n) { if (n < 4) { bldg.Value.build_lvl[n].SetActive(true); } }
                 }
             }
         }
@@ -119,6 +123,7 @@ public class Land : MonoBehaviour
         public GameObject ui_first_BUY;
         public TextMeshProUGUI ui_first_BUY_price;
         public GameObject ui_lock;
+        public GameObject ui_inside;
 
         public Dictionary<int, GameObject> build_lvl = new Dictionary<int, GameObject>();
         public Dictionary<string, GameObject> envr_add = new Dictionary<string, GameObject>();
@@ -136,6 +141,7 @@ public class Land : MonoBehaviour
             ui_upgrade   = ui.transform.Find("upgrade").gameObject;         ui_upgrade.SetActive(false);
             ui_first_BUY = ui.transform.Find("first_BUY").gameObject;       ui_first_BUY.SetActive(false);
             ui_lock      = ui.transform.Find("lock").gameObject;            ui_lock.SetActive(false);
+            ui_inside    = ui.transform.Find("inside").gameObject;          ui_inside.SetActive(false);
 
             // цена первой покупки
             ui_first_BUY_price = ui_first_BUY.transform.Find("TXT").GetComponent<TextMeshProUGUI>();

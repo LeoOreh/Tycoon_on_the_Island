@@ -2,15 +2,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_bldg : MonoBehaviour
+public class UI_bld_btn : MonoBehaviour
 {
-    GameObject upgrade;
+    Transform lands;
     Transform bldg;
+    GameObject upgrade;
 
     public static string active_build_UI;
 
     public void I()
     {
+        lands = transform.parent.parent;
         upgrade = transform.Find("Upgrade").gameObject;
         bldg = transform.parent.Find("buildings");
 
@@ -33,6 +35,11 @@ public class UI_bldg : MonoBehaviour
                 if (btn.name == "lock")
                 {
                     btn.onClick.AddListener(() => Lock(btn.transform.parent.parent.name));
+                }
+                else
+                if (btn.name == "inside")
+                {
+                    btn.onClick.AddListener(() => Inside(btn.transform.parent.parent.name));
                 }
             }
         }
@@ -98,6 +105,15 @@ public class UI_bldg : MonoBehaviour
     void Lock(string typ)
     {
         Debug.Log("Lock() > " + typ);
+    }
+    //---------------------------------------------------------------------------------------------------
+
+
+
+    //---------------------------------------------------------------------------------------------------
+    void Inside(string typ)
+    {
+         GetComponent<UI_inside>().Open_inside(typ);
     }
     //---------------------------------------------------------------------------------------------------
 }

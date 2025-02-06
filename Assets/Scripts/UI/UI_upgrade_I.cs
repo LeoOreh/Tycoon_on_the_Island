@@ -3,9 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_upgrade : MonoBehaviour
+public class UI_upgrade_I : MonoBehaviour
 {
-    Transform upgrade_TR;
+    public static Transform upgrade_TR;
     public static Dictionary<string, BLDG_cls> bldg;
 
 
@@ -118,6 +118,7 @@ public class UI_upgrade : MonoBehaviour
         public TextMeshProUGUI up_TXT_point;
         public int up_point_upgrade;
 
+        public GameObject up_fx_star;
         public Transform up_lock;
 
         public Upgrde_cls(string _build, string _up_name, Transform _content, int _point)
@@ -138,7 +139,7 @@ public class UI_upgrade : MonoBehaviour
             up_icon.Find(up_name).gameObject.SetActive(true);
 
 
-            up_TXT_point = up_TR.transform.Find("info").GetComponent<TextMeshProUGUI>();
+            up_TXT_point = up_TR.transform.Find("info/TXT").GetComponent<TextMeshProUGUI>();
             up_point_upgrade = _point;
             up_TXT_point.text = up_point_upgrade.ToString();
 
@@ -149,6 +150,7 @@ public class UI_upgrade : MonoBehaviour
             up_TXT_price.text = price.ToString();
             up_btn.onClick.AddListener(() => Upgrade(build, up_name));
 
+            up_fx_star = up_TR.transform.Find("fx_star").gameObject;
 
             up_lock = up_TR.transform.Find("lock"); 
             if(GL.state.money >= price) { up_lock.gameObject.SetActive(false); } else { up_lock.gameObject.SetActive(true);}
@@ -163,7 +165,7 @@ public class UI_upgrade : MonoBehaviour
         void Upgrade(string bld, string typ)
         {
             //Debug.Log("Upgrade() > " + typ);
-            Upgrade_M.LVL_up(bld, typ);
+            UI_Upgrade_M.LVL_up(bld, typ);
         }
     }
 

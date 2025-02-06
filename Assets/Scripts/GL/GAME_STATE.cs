@@ -82,14 +82,13 @@ public class GAME_STATE: MonoBehaviour
         {
             public string name;
             public int lvl = -1;
-            //public string[] list_upgrd;
+            public int all_res;
 
             public List<Upgrade_cls> upgrades;
 
             public BLDG_cls(string _name, string[] _upgrades)
             {
                 this.name = _name;
-                //this.list_upgrd = _upgrades;
 
                 upgrades = new List<Upgrade_cls>();
                 int point = 1;

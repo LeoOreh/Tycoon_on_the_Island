@@ -9,7 +9,7 @@ public class UI_upgrade : MonoBehaviour
     public static Dictionary<string, BLDG_cls> bldg;
 
 
-    void Start()
+    public void I()
     {
         upgrade_TR = transform.Find("Upgrade");
         upgrade_TR.gameObject.SetActive(false);
@@ -98,7 +98,7 @@ public class UI_upgrade : MonoBehaviour
 
 
             TXT_lvl = tr.Find("state/lvl/TXT").GetComponent<TextMeshProUGUI>();
-            TXT_lvl.text = Numbers_M.upgrade_lvl(typ, summ).ToString();
+            TXT_lvl.text = bld.lvl.ToString() ;
         }
     }
 

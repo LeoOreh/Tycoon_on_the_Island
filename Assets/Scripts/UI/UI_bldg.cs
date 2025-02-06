@@ -9,7 +9,7 @@ public class UI_bldg : MonoBehaviour
 
     public static string active_build_UI;
 
-    void Start()
+    public void I()
     {
         upgrade = transform.Find("Upgrade").gameObject;
         bldg = transform.parent.Find("buildings");

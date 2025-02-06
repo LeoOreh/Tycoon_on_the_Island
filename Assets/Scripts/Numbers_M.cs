@@ -78,7 +78,7 @@ public class Numbers_M : MonoBehaviour
         {
             summ += (up.lvl - 1) * up.points;
         }
-        Debug.Log(summ);
+        //Debug.Log(summ);
         return summ;
     }
 
@@ -91,6 +91,8 @@ public class Numbers_M : MonoBehaviour
         float a = 0;
         float b = 0;
         float Q = 1;
+        int lvl = Land.state_buildings[bld].lvl ;
+        int i_ = 0;
 
         if (bld == "cave")      { Q = 1.0f; } else
         if (bld == "energy")    { Q = 1.5f; } else
@@ -99,41 +101,19 @@ public class Numbers_M : MonoBehaviour
         if (bld == "factory")   { Q = 5.5f; } else
         if (bld == "port")      { Q = 8.0f; }
 
-        for (int i = 1; i < 100; i++)
+        for (int i = 0; i < 100; i++)
         {
             x = i * Q * i * 5;
-            if (summ >= x) { a = x; }
+            if (summ >= x) { a = x; i_ = i + 1; }
             if (summ < x) { b = x; break; }
         }
 
 
         float result = (summ - a) / (b - a);
-        //Debug.Log(a + " " + b + "  >  " + summ + " " + result);
+        result = result + i_;
+        result = result - lvl;
+        Debug.Log("i_: " + i_.ToString() + ", lvl: " + lvl.ToString() + ", result: " + result.ToString());
 
         return result;
-    }
-    public static int upgrade_lvl(string bld, int summ)
-    {
-        float x;
-        int a = 0;
-        float Q = 1;
-
-        if (bld == "cave")      { Q = 1.0f; } else
-        if (bld == "energy")    { Q = 1.5f; } else
-        if (bld == "warehouse") { Q = 2.5f; } else
-        if (bld == "road")      { Q = 3.5f; } else
-        if (bld == "factory")   { Q = 5.5f; } else
-        if (bld == "port")      { Q = 8.0f; }
-
-        for (int i = 1; i < 100; i++)
-        {
-            x = i * Q * i * 5;
-            if (summ >= x) { a = i; }
-            if (summ < x) {  break; }
-        }
-
-        Debug.Log(a);
-
-        return a;
     }
 }

@@ -24,6 +24,9 @@ public class Land : MonoBehaviour
 
         // init
         I(GL.state.active_land);
+        land_TR.Find("UI").GetComponent<UI_bldg>().I();
+        land_TR.Find("UI").GetComponent<UI_upgrade>().I();
+
         Looking.I();
     }
 

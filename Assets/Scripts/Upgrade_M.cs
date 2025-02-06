@@ -1,10 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Upgrade_M : MonoBehaviour
 {
-    static Coroutine activeCoroutine;
     public static void LVL_up(string build, string typ)
     {
         int price = Numbers_M.Get_Price_Upgrade(build, typ);
@@ -42,6 +42,9 @@ public class Upgrade_M : MonoBehaviour
         }
     }
 
+
+
+    public static Coroutine activeCoroutine;
     static IEnumerator fill_(string build, int summ)
     {
         bool act = true;
@@ -49,22 +52,25 @@ public class Upgrade_M : MonoBehaviour
         float fill = Numbers_M.upgrade_fill(build, summ);
         Transform tr = UI_upgrade.bldg[build].fill;
 
+        Debug.Log(fill);
+
         while (act)
         {
-            if (fill < tr.localScale.x) { fill += 1; }
+            //if (fill < tr.localScale.x) { fill += 1; }
 
-            tr.localScale = Vector3.Lerp(tr.localScale, new Vector3(fill, 1, 1), 0.5f);
+            tr.localScale = Vector3.Lerp(tr.localScale, new Vector3(fill, 1, 1), 0.05f);
 
-            if(tr.localScale.x >= 1) { fill -= 1; tr.localScale = new Vector3(0, 1, 1); }
+            if(tr.localScale.x >= 1) 
+            { 
+                fill -= 1; 
+                tr.localScale = new Vector3(0, 1, 1);
+                Build_M.LVL_up(build);
+            }
 
-            if(Time.time > TS + 2) { act = false; }
+            if (Time.time > TS + 2) { act = false; }
 
             yield return new WaitForFixedUpdate();
         }
     }
 
 }
-//int lvl = Numbers_M.upgrade_lvl(bld, summ);
-//UI_upgrade.bldg[bld].TXT_lvl.text = lvl.ToString();
-//int lvl = Numbers_M.upgrade_lvl(bld, summ);
-//UI_upgrade.bldg[bld].TXT_lvl.text = lvl.ToString();

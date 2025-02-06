@@ -1,16 +1,19 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Build_M : MonoBehaviour
 {
     public static void LVL_up(string typ)
     {
+        Debug.Log("LVL_up");
+
         Land.state_buildings[typ].lvl++;
         int new_lvl = Land.state_buildings[typ].lvl;
 
 
         // актуализация версии здания на сцене
         foreach (var bld in Land.buildings[typ].build_lvl) { bld.Value.SetActive(false); }
-        Land.buildings[typ].build_lvl[new_lvl].SetActive(true);
+        if (new_lvl > 0) { Land.buildings[typ].build_lvl[1].SetActive(true); }
 
 
         // актуализация UI здания на сцене
@@ -20,6 +23,13 @@ public class Build_M : MonoBehaviour
 
         if (new_lvl == 0) { Land.buildings[typ].ui_first_BUY.SetActive(true); } else
         if (new_lvl >  0) { Land.buildings[typ].ui_upgrade.SetActive(true); }
+
+        if (Upgrade_M.activeCoroutine == null)
+        {
+            UI_upgrade.bldg[typ].fill.localScale = new Vector3(Numbers_M.upgrade_fill(typ, Numbers_M.summ_upgrade(typ)), 1, 1);
+        }
+        UI_upgrade.bldg[typ].TXT_lvl.text = Land.state_buildings[typ].lvl.ToString();
+        
 
 
         JSON_M.Save();

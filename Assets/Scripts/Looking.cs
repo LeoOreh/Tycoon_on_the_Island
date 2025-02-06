@@ -21,11 +21,13 @@ public class Looking : MonoBehaviour
                 Build_M.LVL_up("energy");
             }
 
+            // если купили energy и сделали один апгрейд
             else
-            if (Land.state_buildings["port"].lvl == -1)
+            if (Land.state_buildings["energy"].lvl > 0 && Land.state_buildings["port"].lvl == -1)
             {
                 Build_M.LVL_up("port");
                 Land.buildings["cave"].ui_inside.SetActive(true); 
+                Build_M.LVL_up("warehouse");
             }
         }
         else

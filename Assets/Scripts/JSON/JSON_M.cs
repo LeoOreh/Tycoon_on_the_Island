@@ -26,12 +26,17 @@ public class JSON_M : MonoBehaviour
         }
     }
 
-
+    static float TS_save;
     public static void Save()
     {
-        string json = JsonUtility.ToJson(GL.state, true);
-        Debug.Log(json);
+        if (Time.time > TS_save + 5)
+        {
+            TS_save = Time.time;
 
-        File.WriteAllText(pth, json);
+            string json = JsonUtility.ToJson(GL.state, true);
+            Debug.Log(json);
+
+            File.WriteAllText(pth, json);
+        }
     }
 }

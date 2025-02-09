@@ -47,5 +47,7 @@ public class Port_order_SELL : MonoBehaviour
 
         Destroy(Port_orders_I.orders[name_order].order_TR.gameObject);
         Port_orders_I.orders.Remove(name_order);
+
+        Port_orders_ADD.ADD_new_order();
     }
 }

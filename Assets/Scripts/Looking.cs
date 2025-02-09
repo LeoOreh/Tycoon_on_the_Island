@@ -45,6 +45,7 @@ public class Looking : MonoBehaviour
             {
                 GL.state.dialog.last = 1;
                 GL.dlg.add_txt("last");
+                Land.buildings["cave"].ui_inside.SetActive(true);
             }
         }
         else

@@ -8,17 +8,19 @@ public class Build_M : MonoBehaviour
         Debug.Log("LVL_up");
 
         Land.state_buildings[typ].lvl++;
-        if (typ == "port" && Land.state_buildings[typ].lvl == 0) { Land.state_buildings[typ].lvl++; Land.buildings[typ].ui_inside.SetActive(true); }
-        if (typ == "warehouse" && Land.state_buildings[typ].lvl > 0) { Land.buildings[typ].ui_inside.SetActive(true); }
+        if (Land.state_buildings[typ].lvl > 0) 
+        { 
+            //Land.buildings[typ].build_lvl[1].SetActive(true);
+
+            if (typ == "port" || typ == "warehouse" || typ == "cave") { Land.buildings[typ].ui_inside.SetActive(true); }
+        }
 
         int new_lvl = Land.state_buildings[typ].lvl;
 
-        JSON_M.Save();
-
 
         // актуализация версии здания на сцене
-        foreach (var bld in Land.buildings[typ].build_lvl) { bld.Value.SetActive(false); }
-        if (new_lvl > 0) { Land.buildings[typ].build_lvl[1].SetActive(true); }
+        //foreach (var bld in Land.buildings[typ].build_lvl) { bld.Value.SetActive(false); }
+        //if (new_lvl > 0) { Land.buildings[typ].build_lvl[1].SetActive(true); }
 
 
         // актуализация UI здания на сцене
@@ -52,9 +54,9 @@ public class Build_M : MonoBehaviour
     {
         int price = Numbers_M.Get_Price_First_BUY(typ);
 
-        if (GL_UI.coins_count >= price)
+        if (GL_UI.coins >= price)
         {
-            GL_UI.coins_count -= price;
+            GL_UI.coins_count(-price);
 
             LVL_up(typ);
         }

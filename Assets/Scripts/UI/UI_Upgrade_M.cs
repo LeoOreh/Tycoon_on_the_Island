@@ -10,9 +10,9 @@ public class UI_Upgrade_M : MonoBehaviour
     {
         int price = Numbers_M.Get_Price_Upgrade(build, typ);
 
-        if (GL_UI.coins_count >= price)
+        if (GL_UI.coins >= price)
         {
-            GL_UI.coins_count -= price;
+            GL_UI.coins_count(-price);
 
             foreach (GAME_STATE.Land_cls.BLDG_cls.Upgrade_cls up in Land.state_buildings[build].upgrades)
             {

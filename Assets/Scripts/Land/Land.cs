@@ -108,16 +108,16 @@ public class Land : MonoBehaviour
             {
                 if (bldg.Key == u.name)
                 {                    
-                    if (u.lvl == -1) { bldg.Value.ui_lock.SetActive(true);         activ_lvl(0); }
-                    if (u.lvl ==  0) { bldg.Value.ui_first_BUY.SetActive(true);    activ_lvl(u.lvl); }
+                    if (u.lvl == -1) { bldg.Value.ui_lock.SetActive(true); }
+                    if (u.lvl ==  0) { bldg.Value.ui_first_BUY.SetActive(true); }
                     if (u.lvl >   0) 
                     { 
-                        bldg.Value.ui_upgrade.SetActive(true);                     activ_lvl(u.lvl); 
+                        bldg.Value.ui_upgrade.SetActive(true); 
                         if (u.all_res > 0) { bldg.Value.ui_inside.SetActive(true); }
                         if (u.name == "port" && u.lvl > 0) { bldg.Value.ui_inside.SetActive(true); }
                     }
 
-                    void activ_lvl(int n) { if (n < 2) { bldg.Value.build_lvl[n].SetActive(true); } else { bldg.Value.build_lvl[1].SetActive(true); } }
+                    bldg.Value.build_lvl[1].SetActive(true);
                 }
             }
         }
@@ -140,7 +140,7 @@ public class Land : MonoBehaviour
         public GameObject ui_lock;
         public GameObject ui_inside { get; set; }
 
-        public Dictionary<int, GameObject> build_lvl = new Dictionary<int, GameObject>();
+        public Dictionary<int, GameObject> build_lvl { get; set; } = new Dictionary<int, GameObject>();
         public Dictionary<string, GameObject> envr_add = new Dictionary<string, GameObject>();
 
 

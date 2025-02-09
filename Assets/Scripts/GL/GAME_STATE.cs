@@ -52,6 +52,7 @@ public class GAME_STATE: MonoBehaviour
         public List<RES_CLS> resources = new List<RES_CLS> { } ;
 
         // сделки порта
+        public int count_orders;
         public List<PORT_order_cls> port_orders = new List<PORT_order_cls>();
 
 

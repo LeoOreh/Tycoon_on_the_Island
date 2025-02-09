@@ -3,26 +3,23 @@ using UnityEngine;
 
 public class GL_UI : MonoBehaviour
 {
-    public static Transform coins;
+    public static Transform coins_TR;
     public static TextMeshProUGUI coins_txt;
-    static int coins_count_GET_SET;
+    public static int coins { get; set; }
 
 
     void Start()
     {
-        coins = transform.Find("Coins");
-        coins_txt = coins.Find("TXT").GetComponent<TextMeshProUGUI>();
-        coins_count = GL.state.money;
+        coins_TR = transform.Find("Coins");
+        coins_txt = coins_TR.Find("TXT").GetComponent<TextMeshProUGUI>();
+        coins = GL.state.money;
+        coins_txt.text = coins.ToString();
     }
 
-    public static int coins_count
-    {
-        get { return coins_count_GET_SET; }
-        set
-        {
-            coins_count_GET_SET += value;
-            coins_txt.text = coins_count_GET_SET.ToString();
-            GL.state.money += value;
-        }
+    public static void coins_count (int c)
+    {            
+        coins += c;
+        coins_txt.text = coins.ToString();
+        GL.state.money += c;       
     }
 }

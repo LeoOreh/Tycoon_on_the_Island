@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Port_orders_ADD : Port_orders_I
 {
-    static int N_ordes_name;
-
     public static void ADD_from_jsn()
     {
         Debug.Log("ADD_from_jsn");
@@ -49,9 +47,9 @@ public class Port_orders_ADD : Port_orders_I
         Transform tr = Instantiate(default_order_types[new_name_def].order_TR, content_TR);
         tr.gameObject.SetActive(true);
 
-        string new_name = new_name_def +  "__" + N_ordes_name;
+        string new_name = new_name_def +  "__" + Land.state_land.count_orders;
         tr.name = new_name;
-        N_ordes_name++;
+        Land.state_land.count_orders++;
 
         orders.Add(new_name, new RES_TYP_CLS(new_name));
 
@@ -63,25 +61,25 @@ public class Port_orders_ADD : Port_orders_I
         string[] types_for_price = new string[limit_res_in_order];
         int[] count_res_for_price = new int[limit_res_in_order];
 
-        for (int i = 0; i <= limit_res_in_order; i++)
+        for (int i_ = 1; i_ <= limit_res_in_order; i_++)
         {
-            if (orders[new_name].order_TR.Find(i.ToString()) != null) 
+            if (orders[new_name].order_TR.Find(i_.ToString()) != null) 
             {
                 //orders[name].resources[i] = new RES_TYP_BUY(orders[name].res_TR.Find(i.ToString()));
 
                 string name_res = Numbers_M.Port_new_order_res_TYP();
-                orders[new_name].resources[i].res_name = name_res;
-                types_for_price[i] = name_res;
+                orders[new_name].resources[i_].res_name = name_res;
+                types_for_price[i_-1] = name_res;
 
                 int count_res = Numbers_M.Port_new_order_res_count(name_res);
-                orders[new_name].resources[i].TXT_count.text = count_res.ToString();
-                count_res_for_price[i] = count_res;
+                orders[new_name].resources[i_].TXT_count.text = count_res.ToString();
+                count_res_for_price[i_-1] = count_res;
 
-                foreach (Transform icon in orders[new_name].resources[i].res_icon)
+                foreach (Transform icon in orders[new_name].resources[i_].res_icon)
                 {
                     icon.gameObject.SetActive(false);
                 }
-                orders[new_name].resources[i].res_icon.Find(name_res).gameObject.SetActive(true);
+                orders[new_name].resources[i_].res_icon.Find(name_res).gameObject.SetActive(true);
 
                 new_order_jsn.resources.Add(new GAME_STATE.Land_cls.PORT_order_cls.PORT_order_res(name_res, count_res));
             }

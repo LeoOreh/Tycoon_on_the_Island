@@ -41,7 +41,7 @@ public class Port_order_SELL : MonoBehaviour
 
         if (sell == false) { return; }
 
-        GL_UI.coins_count = state_oredr.total_price;
+        GL_UI.coins_count(state_oredr.total_price);
 
         Land.state_land.port_orders.Remove(state_oredr);
 

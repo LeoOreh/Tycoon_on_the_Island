@@ -217,12 +217,13 @@ public class Numbers_M : MonoBehaviour
                     if (t.name == types[i])
                     {
                         price += t.price * count[i];
-                        price *= Random.Range(0.9f, 1.1f);
                     }
                 }
             }
         }
 
+        price *= Random.Range(0.9f, 1.1f);
+        if(price < 1) { price = 1; }
 
         return (int)price;
     }

@@ -21,6 +21,7 @@ public class Load_UI : MonoBehaviour
     IEnumerator Load()
     {
         AsyncOperation AsyncO = SceneManager.LoadSceneAsync("LAND");
+        AsyncO.allowSceneActivation = false;
         Debug.Log("AsyncO");
         bool act = true;
 
@@ -34,8 +35,16 @@ public class Load_UI : MonoBehaviour
                 Destroy(gameObject);
             }
             else
-            {
-                fill.fillAmount = AsyncO.progress * 1.1f;
+            {              
+                if(AsyncO.progress >= 0.9f)
+                {
+                    AsyncO.allowSceneActivation = true;
+                    fill.fillAmount = 1;
+                }
+                else
+                {
+                    fill.fillAmount = AsyncO.progress;
+                }
             }
             yield return null;
         }

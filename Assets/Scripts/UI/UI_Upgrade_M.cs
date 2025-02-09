@@ -60,11 +60,11 @@ public class UI_Upgrade_M : MonoBehaviour
 
         while (distanceTravelled / totalDistance < 0.97f)
         {
-            tr.position = Vector3.Lerp(tr.position, endWorldPosition, 0.02f);
+            tr.position = Vector3.Lerp(tr.position, endWorldPosition, 0.1f);
 
             distanceTravelled = Vector3.Distance(startWorldPosition, tr.position);
 
-            yield return null; 
+            yield return new WaitForFixedUpdate(); 
         }
 
         tr.position = endWorldPosition;

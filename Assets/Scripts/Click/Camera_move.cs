@@ -37,7 +37,7 @@ public class Camera_move : MonoBehaviour, IDragHandler
 
         if (Mathf.Abs(cam.position.x - newPosition.x) > 0.1f)
         {
-            cam.position = Vector3.Lerp(cam.position, newPosition, 0.01f);
+            cam.position = Vector3.Lerp(cam.position, newPosition, 1 * Time.deltaTime);
         }
 
         lastTouchPosition = eventData.position;

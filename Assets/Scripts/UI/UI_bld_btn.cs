@@ -67,6 +67,8 @@ public class UI_bld_btn : MonoBehaviour
     public void Close_upgrade()
     {
         upgrade.SetActive(false);
+
+        if (GL.state.dialog.buy_energy == 0) { GL.state.dialog.buy_energy = 1; GL.dlg.add_txt("buy_energy"); }
     }
     //---------------------------------------------------------------------------------------------------
 

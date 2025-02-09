@@ -19,6 +19,8 @@ public class Looking : MonoBehaviour
             if (Land.state_buildings["energy"].lvl == -1)
             {
                 Build_M.LVL_up("energy");
+
+                Land.land_UI.GetComponent<UI_bld_btn>().Close_upgrade();
             }
 
             // если купили energy и сделали один апгрейд
@@ -27,12 +29,22 @@ public class Looking : MonoBehaviour
             {
                 Build_M.LVL_up("port");
                 Build_M.LVL_up("warehouse");
+
+                Land.land_UI.GetComponent<UI_bld_btn>().Close_upgrade();
             }
 
             else
-            if (Land.state_buildings["port"].lvl > 0 )
+            if (Land.state_buildings["port"].lvl > 0 && Land.state_buildings["factory"].lvl < 0)
             {
                 Build_M.LVL_up("factory");
+            }
+
+
+
+            if (GL.state.dialog.buy_energy_up == 1 && GL.state.dialog.last == 0)
+            {
+                GL.state.dialog.last = 1;
+                GL.dlg.add_txt("last");
             }
         }
         else

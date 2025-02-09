@@ -8,12 +8,6 @@ public class Build_M : MonoBehaviour
         Debug.Log("LVL_up");
 
         Land.state_buildings[typ].lvl++;
-        if (Land.state_buildings[typ].lvl > 0) 
-        { 
-            //Land.buildings[typ].build_lvl[1].SetActive(true);
-
-            if (typ == "port" || typ == "warehouse" || typ == "cave" || typ == "factory") { Land.buildings[typ].ui_inside.SetActive(true); }
-        }
 
         int new_lvl = Land.state_buildings[typ].lvl;
 
@@ -26,10 +20,16 @@ public class Build_M : MonoBehaviour
         // актуализация UI здания на сцене
         Land.buildings[typ].ui_first_BUY.SetActive(false);
         Land.buildings[typ].ui_lock.SetActive(false);
-        Land.buildings[typ].ui_upgrade.SetActive(false);
 
-        if (new_lvl == 0) { Land.buildings[typ].ui_first_BUY.SetActive(true); } else
+        if (new_lvl == 0) { Land.buildings[typ].ui_first_BUY.SetActive(true); }
         if (new_lvl >  0) { Land.buildings[typ].ui_upgrade.SetActive(true); }
+        if (new_lvl >  0 && GL.state.dialog.buy_cave_up > 0)
+        {          
+            if (typ == "port" || typ == "warehouse" || typ == "cave" || typ == "factory") { Land.buildings[typ].ui_inside.SetActive(true); }
+        }
+
+        if (new_lvl > 0 && typ == "cave" && GL.state.dialog.buy_cave_up == 0) { GL.state.dialog.buy_cave_up = 1; GL.dlg.add_txt("buy_cave_up"); }
+        if (new_lvl > 0 && typ == "energy" && GL.state.dialog.buy_energy_up == 0) { GL.state.dialog.buy_energy_up = 1; GL.dlg.add_txt("buy_energy_up"); }
 
 
         int summ = Numbers_M.summ_upgrade(typ);

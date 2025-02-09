@@ -177,4 +177,19 @@ public class GAME_STATE: MonoBehaviour
             }
         }
     }
+
+
+    public Dialog dialog = new Dialog();
+    [System.Serializable]
+    public class Dialog
+    {
+        public int welcome;
+        public int buy_cave;
+        public int buy_cave_up;
+        public int buy_energy;
+        public int buy_energy_up;
+        public int last;
+
+        public Dialog() { }
+    }
 }

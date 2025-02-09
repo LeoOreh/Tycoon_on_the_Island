@@ -158,19 +158,20 @@ public class Numbers_M : MonoBehaviour
     // "stones", "gold", "coal", "granite", "quartz", "ruby", "silver", "diamond", "silicon"
     public static string Port_new_order_res_TYP()
     {
+        /*
         int types_res = Warehouse_ADD.res.Count;
         float[] probability = new float[types_res];
 
         float pr_value = 0.5f;
-        float summ_pr = 0;
+        //float summ_pr = 0;
         for (int i = 0; i < probability.Length; i++)
         {
             probability[i] = pr_value;
-            summ_pr += pr_value;
-            pr_value /= 2;
+            //summ_pr += pr_value;
+            pr_value /= 1.5f;
         }
-        float remains = 1 - summ_pr;
-        probability[0] += remains;
+        //float remains = 1 - summ_pr;
+        //probability[0] += remains;
 
         float r = Random.Range(0, probability[0]);
         //Debug.Log(r);
@@ -186,7 +187,10 @@ public class Numbers_M : MonoBehaviour
         {
             if (foreach_n == r_n) { nm = item.name; }
             foreach_n++;
-        }
+        }*/
+
+        int rnd = Random.Range(0, Land.state_land.res_names.Length);
+        string nm = Land.state_land.res_names[rnd];
 
         return nm;
     }

@@ -48,7 +48,8 @@ public class GAME_STATE: MonoBehaviour
         public List<BLDG_cls> buildings = new List<BLDG_cls> { };
 
         // ресурсы острова
-        public string[] res_names = new string[] { "stones", "gold", "coal", "granite", "quartz", "ruby", "silver", "diamond", "silicon" };
+        public string[] res_names = new string[] { "stones", "gold", "coal", "granite", "quartz", "ruby", "silver", "diamond", "silicon", 
+                                                   "axe", "shovel", "bucket", "wheel", "door", "bike" };
         public List<RES_CLS> resources = new List<RES_CLS> { } ;
 
         // сделки порта

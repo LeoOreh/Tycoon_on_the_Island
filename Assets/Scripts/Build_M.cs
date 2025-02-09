@@ -12,7 +12,7 @@ public class Build_M : MonoBehaviour
         { 
             //Land.buildings[typ].build_lvl[1].SetActive(true);
 
-            if (typ == "port" || typ == "warehouse" || typ == "cave") { Land.buildings[typ].ui_inside.SetActive(true); }
+            if (typ == "port" || typ == "warehouse" || typ == "cave" || typ == "factory") { Land.buildings[typ].ui_inside.SetActive(true); }
         }
 
         int new_lvl = Land.state_buildings[typ].lvl;

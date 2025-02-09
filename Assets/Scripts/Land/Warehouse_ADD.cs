@@ -30,6 +30,13 @@ public class Warehouse_ADD : MonoBehaviour
         res.Add(new RES_typ("gold", 0.2f, 160));
         res.Add(new RES_typ("ruby", 0.05f, 340));
         res.Add(new RES_typ("diamond", 0.01f, 900));
+
+        res.Add(new RES_typ("axe", 0, 1200));
+        res.Add(new RES_typ("shovel", 0, 1600));
+        res.Add(new RES_typ("bucket", 0, 1800));
+        res.Add(new RES_typ("wheel", 0, 2300));
+        res.Add(new RES_typ("door", 0, 3400));
+        res.Add(new RES_typ("bike", 0, 4750));
     }
 
     public class RES_typ
@@ -76,10 +83,7 @@ public class Warehouse_ADD : MonoBehaviour
 
         // Если есть остатки, распределяем их
         int remainingResources = totalResources - allocatedSum;
-        for (int i = 0; i < remainingResources; i++)
-        {
-            res[i % res.Count].allocatedAmount++;
-        }
+        res[0].allocatedAmount += remainingResources;
     }
 
 
@@ -87,7 +91,7 @@ public class Warehouse_ADD : MonoBehaviour
     {
         foreach (RES_typ r in res)
         {
-            Debug.Log($"{r.name}: {r.allocatedAmount}");
+            //Debug.Log($"{r.name}: {r.allocatedAmount}");
             Land.state_res[r.name].count += r.allocatedAmount;
             Land.state_res[r.name].count_all += r.allocatedAmount;
         }

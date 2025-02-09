@@ -14,7 +14,7 @@ public class Port_orders_ADD : Port_orders_I
 
             string _name = order_jsn.name;
             tr.name = _name;
-            Debug.Log(tr.name);
+            //Debug.Log(tr.name);
 
             orders.Add(_name, new RES_TYP_CLS(_name));
 

@@ -43,8 +43,17 @@ public class GAME_STATE: MonoBehaviour
     public class Land_cls
     {
         public string name;
-        public int S; // 0- не открыт 1- открыт
+        public int S; // 0- остров не открыт 1- открыт
+
         public List<BLDG_cls> buildings = new List<BLDG_cls> { };
+
+        // ресурсы острова
+        public string[] res_names = new string[] { "stones", "gold", "coal", "granite", "quartz", "ruby", "silver", "diamond", "silicon" };
+        public List<RES_CLS> resources = new List<RES_CLS> { } ;
+
+        // сделки порта
+        public List<PORT_order_cls> port_orders = new List<PORT_order_cls>();
+
 
         public Land_cls(string _name, string[] _upgrd)
         {
@@ -73,6 +82,13 @@ public class GAME_STATE: MonoBehaviour
                     if (nm == "warehouse")   { buildings.Add(new BLDG_cls(nm, new string[] { "books", "engine", })); };
                     if (nm == "port")        { buildings.Add(new BLDG_cls(nm, new string[] { "books", "engine", "canister" })); };
                 }
+            }
+
+
+            // ресурсы острова
+            foreach (string res_name in res_names)
+            {
+                resources.Add(new RES_CLS(res_name));
             }
         }
  
@@ -113,6 +129,48 @@ public class GAME_STATE: MonoBehaviour
                     this.points = _point;
                 }
             }
-        }       
+        }
+
+
+        [System.Serializable]
+        public class RES_CLS
+        {
+            public string res_name;
+            public int count;
+            public int count_all;
+
+            public RES_CLS (string res_name)
+            {
+                this.res_name = res_name;
+            }
+        }
+
+
+
+        // предлагаемая сделка
+        // port_orders.Add(new PORT_order());
+        [System.Serializable]
+        public class PORT_order_cls
+        {
+            public string typ;
+            public List<PORT_order_res> resources = new List<PORT_order_res>();
+            public int total_price;
+
+            public PORT_order_cls() { }
+
+            // условия сделки
+            [System.Serializable]
+            public class PORT_order_res
+            {
+                public int count_res;
+                public string res_name;
+
+                public PORT_order_res(string _res_name, int _count_res)
+                {
+                    count_res = _count_res;
+                    res_name = _res_name;
+                }
+            }
+        }
     }
 }

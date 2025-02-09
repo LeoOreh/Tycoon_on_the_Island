@@ -8,7 +8,8 @@ public class Build_M : MonoBehaviour
         Debug.Log("LVL_up");
 
         Land.state_buildings[typ].lvl++;
-        if (typ == "port") { Land.state_buildings[typ].lvl++; }
+        if (typ == "port" && Land.state_buildings[typ].lvl == 0) { Land.state_buildings[typ].lvl++; Land.buildings[typ].ui_inside.SetActive(true); }
+        if (typ == "warehouse" && Land.state_buildings[typ].lvl > 0) { Land.buildings[typ].ui_inside.SetActive(true); }
 
         int new_lvl = Land.state_buildings[typ].lvl;
 

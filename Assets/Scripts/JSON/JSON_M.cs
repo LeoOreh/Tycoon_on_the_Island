@@ -34,7 +34,7 @@ public class JSON_M : MonoBehaviour
             TS_save = Time.time;
 
             string json = JsonUtility.ToJson(GL.state, true);
-            Debug.Log(json);
+            //Debug.Log(json);
 
             File.WriteAllText(pth, json);
         }

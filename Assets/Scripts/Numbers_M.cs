@@ -116,4 +116,33 @@ public class Numbers_M : MonoBehaviour
 
         return result;
     }
+
+
+
+
+    public static string Port_new_order_TYP()
+    {
+        string nm = "_default_1";
+
+        return nm;
+    }
+    // "stones", "gold", "coal", "granite", "quartz", "ruby", "silver", "diamond", "silicon"
+    public static string Port_new_order_res_TYP()
+    {
+        string nm = "ruby";
+
+        return nm;
+    }
+    public static int Port_new_order_res_count(string typ)
+    {
+        int nm = Random.Range(1, 20);
+
+        return nm;
+    }
+    public static int Port_new_order_PRICE(string[] typ)
+    {
+        int nm = Random.Range(20, 50);
+
+        return nm;
+    }
 }

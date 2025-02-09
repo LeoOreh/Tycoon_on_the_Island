@@ -138,6 +138,7 @@ public class UI_upgrade_I : MonoBehaviour
             up_icon.gameObject.SetActive(true);
             up_icon.Find(up_name).gameObject.SetActive(true);
 
+            Debug.Log(up_name);
 
             up_TXT_point = up_TR.transform.Find("info/TXT").GetComponent<TextMeshProUGUI>();
             up_point_upgrade = _point;

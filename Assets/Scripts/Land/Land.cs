@@ -7,6 +7,7 @@ public class Land : MonoBehaviour
     static Dictionary<string, GameObject> lands;
 
     static Transform land_TR;
+    public static Transform land_UI;
     static Transform buildings_TR;
     public static Dictionary<string, BLDG_cls> buildings;
     static Transform envr, envr_bld;
@@ -14,6 +15,7 @@ public class Land : MonoBehaviour
     // ссылки дл€ избежани€ посто€нных переборов
     public static GAME_STATE.Land_cls state_land; // данные актуального острова
     public static Dictionary<string, GAME_STATE.Land_cls.BLDG_cls> state_buildings; // данные о здани€х актуального острова
+    public static Dictionary<string, GAME_STATE.Land_cls.RES_CLS> state_res; // данные о здани€х актуального острова
 
 
     void Start()
@@ -24,8 +26,11 @@ public class Land : MonoBehaviour
 
         // init
         I(GL.state.active_land);
-        land_TR.Find("UI").GetComponent<UI_bld_btn>().I();
-        land_TR.Find("UI").GetComponent<UI_upgrade_I>().I();
+        land_UI = land_TR.Find("UI");
+        land_UI.GetComponent<UI_bld_btn>().I();
+        land_UI.GetComponent<UI_upgrade_I>().I();
+
+        Port_orders_I.I();
 
         Looking.I();
     }
@@ -40,6 +45,7 @@ public class Land : MonoBehaviour
             new_land_name == "land_2_tree")
         {
             lands[new_land_name].SetActive(true);
+            lands[new_land_name].transform.Find("UI").gameObject.SetActive(true);
         }
         else { Debug.LogError("Land.I(): wrong name!!! : " + new_land_name); }
 
@@ -52,15 +58,22 @@ public class Land : MonoBehaviour
         // ссылки дл€ избежани€ посто€нных переборов
         foreach (GAME_STATE.Land_cls l in GL.state.lands)
         {
-            if (l.name == GL.state.active_land)  // ищем актуальный остров
+            if (l.name == GL.state.active_land)  
             {
-                state_land = l;
+                state_land = l;  // актуальный остров
             }
         }
+
         state_buildings = new Dictionary<string, GAME_STATE.Land_cls.BLDG_cls>();
         foreach (GAME_STATE.Land_cls.BLDG_cls b in state_land.buildings)
         {
             state_buildings.Add(b.name, b);
+        }
+
+        state_res = new Dictionary<string, GAME_STATE.Land_cls.RES_CLS>();
+        foreach (GAME_STATE.Land_cls.RES_CLS r in state_land.resources)
+        {
+            state_res.Add(r.res_name, r);
         }
         //-----------------------------------------------------------------------------------------------------------------
 
@@ -99,10 +112,11 @@ public class Land : MonoBehaviour
                     if (u.lvl >   0) 
                     { 
                         bldg.Value.ui_upgrade.SetActive(true);                     activ_lvl(u.lvl); 
-                        if(u.all_res > 0) { bldg.Value.ui_inside.SetActive(true); }
+                        if (u.all_res > 0) { bldg.Value.ui_inside.SetActive(true); }
+                        if (u.name == "port" && u.lvl > 0) { bldg.Value.ui_inside.SetActive(true); }
                     }
 
-                    void activ_lvl(int n) { if (n < 4) { bldg.Value.build_lvl[n].SetActive(true); } }
+                    void activ_lvl(int n) { if (n < 2) { bldg.Value.build_lvl[n].SetActive(true); } else { bldg.Value.build_lvl[1].SetActive(true); } }
                 }
             }
         }
@@ -123,7 +137,7 @@ public class Land : MonoBehaviour
         public GameObject ui_first_BUY;
         public TextMeshProUGUI ui_first_BUY_price;
         public GameObject ui_lock;
-        public GameObject ui_inside;
+        public GameObject ui_inside { get; set; }
 
         public Dictionary<int, GameObject> build_lvl = new Dictionary<int, GameObject>();
         public Dictionary<string, GameObject> envr_add = new Dictionary<string, GameObject>();

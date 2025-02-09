@@ -8,6 +8,7 @@ public class GAME_STATE: MonoBehaviour
     public string active_land = "land_1_stones";
 
     // настройки
+    public float slider_quality;
 
 
     // данные игрока

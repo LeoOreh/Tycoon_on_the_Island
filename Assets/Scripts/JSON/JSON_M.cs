@@ -29,7 +29,7 @@ public class JSON_M : MonoBehaviour
     static float TS_save;
     public static void Save()
     {
-        if (Time.time > TS_save + 5)
+        if (Time.time > TS_save + 2)
         {
             TS_save = Time.time;
 

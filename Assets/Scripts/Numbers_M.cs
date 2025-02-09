@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Numbers_M : MonoBehaviour
@@ -119,30 +120,110 @@ public class Numbers_M : MonoBehaviour
 
 
 
-
+    // вероятность нового типа ордера. обратная прогрессия (х=/2)
     public static string Port_new_order_TYP()
     {
+        int count_types_orders = Port_orders_I.name_types_orders.Count;
+        float[] probability = new float[count_types_orders];
+
+        float pr_value = 0.5f;
+        float summ_pr = 0;
+        for (int i = 0; i < probability.Length; i++)
+        {
+            probability[i] = pr_value;
+            summ_pr += pr_value;
+            pr_value /= 2;
+        }
+        float remains = 1 - summ_pr;
+        probability[0] += remains;
+
+        float r = Random.Range(0, probability[0]);
+        //Debug.Log(r);
+        int r_n = 0;
+        for (int i = 0; i < probability.Length; i++)
+        {
+            if( r < probability[i]) { r_n = i; }
+        }
+
+        int foreach_n = 0;
         string nm = "_default_1";
+        foreach (KeyValuePair<string, int> item in Port_orders_I.name_types_orders)
+        {
+            if (foreach_n == r_n) { nm = item.Key; }
+            foreach_n++;
+        }
 
         return nm;
     }
     // "stones", "gold", "coal", "granite", "quartz", "ruby", "silver", "diamond", "silicon"
     public static string Port_new_order_res_TYP()
     {
+        int types_res = Warehouse_ADD.res.Count;
+        float[] probability = new float[types_res];
+
+        float pr_value = 0.5f;
+        float summ_pr = 0;
+        for (int i = 0; i < probability.Length; i++)
+        {
+            probability[i] = pr_value;
+            summ_pr += pr_value;
+            pr_value /= 2;
+        }
+        float remains = 1 - summ_pr;
+        probability[0] += remains;
+
+        float r = Random.Range(0, probability[0]);
+        //Debug.Log(r);
+        int r_n = 0;
+        for (int i = 0; i < probability.Length; i++)
+        {
+            if (r < probability[i]) { r_n = i; }
+        }
+
         string nm = "ruby";
+        int foreach_n = 0;
+        foreach (Warehouse_ADD.RES_typ item in Warehouse_ADD.res)
+        {
+            if (foreach_n == r_n) { nm = item.name; }
+            foreach_n++;
+        }
 
         return nm;
     }
     public static int Port_new_order_res_count(string typ)
     {
-        int nm = Random.Range(1, 20);
+        float Q = 1;
+        foreach (Warehouse_ADD.RES_typ item in Warehouse_ADD.res)
+        {
+            if(item.name == typ) { Q = item.probability; } break;
+        }
+        Q *= summ_upgrade("port");
 
-        return nm;
+        float nm = Random.Range(Q/5, Q);
+        if(nm < 1) { nm = 1; }
+
+        return (int)nm;
     }
-    public static int Port_new_order_PRICE(string[] typ)
+    public static int Port_new_order_PRICE(string[] types, int[] count)
     {
-        int nm = Random.Range(20, 50);
+        float price = 0;
 
-        return nm;
+        for (int i = 0; i < types.Length; i++)
+        {
+            if (types[i] != null && types[i] != "")
+            {
+                foreach (Warehouse_ADD.RES_typ t in Warehouse_ADD.res)
+                {
+                    if (t.name == types[i])
+                    {
+                        price += t.price * count[i];
+                        price *= Random.Range(0.9f, 1.1f);
+                    }
+                }
+            }
+        }
+
+
+        return (int)price;
     }
 }

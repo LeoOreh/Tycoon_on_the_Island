@@ -11,7 +11,7 @@ public class Port_orders_I : MonoBehaviour
     public static Dictionary<string, int> name_types_orders = new Dictionary<string, int>();
     static protected Dictionary<string, RES_TYP_CLS> default_order_types = new Dictionary<string, RES_TYP_CLS>();
 
-    static protected Dictionary<string, RES_TYP_CLS> orders = new Dictionary<string, RES_TYP_CLS>();
+    public static Dictionary<string, RES_TYP_CLS> orders = new Dictionary<string, RES_TYP_CLS>();
 
     static protected int limit_res_in_order = 3;
 
@@ -28,7 +28,7 @@ public class Port_orders_I : MonoBehaviour
             default_order_types[type.Key] = new RES_TYP_CLS(type.Key);
         }
 
-        foreach (KeyValuePair<string,RES_TYP_CLS> order in default_order_types) { order.Value.res_TR.gameObject.SetActive(false); }
+        foreach (KeyValuePair<string,RES_TYP_CLS> order in default_order_types) { order.Value.order_TR.gameObject.SetActive(false); }
 
 
         Port_orders_ADD.ADD_from_jsn();
@@ -36,39 +36,38 @@ public class Port_orders_I : MonoBehaviour
 
     public class RES_TYP_CLS
     {
-        public Transform res_TR;
+        public Transform order_TR;
         public Dictionary<int, RES_TYP_BUY> resources = new Dictionary<int, RES_TYP_BUY>();
         public TextMeshProUGUI TXT_price;
 
 
         public RES_TYP_CLS(string _name)
         {
-            res_TR = content_TR.Find(_name);
-            Debug.Log(res_TR.name);
+            order_TR = content_TR.Find(_name);
+            Debug.Log(order_TR.name);
 
             // до трех условий в сделке
             for (int i = 1; i <= limit_res_in_order; i++)
             {
-                if (res_TR.Find(i.ToString()) != null) { resources[i] = new RES_TYP_BUY(res_TR.Find(i.ToString()));}
+                if (order_TR.Find(i.ToString()) != null) { resources[i] = new RES_TYP_BUY(order_TR.Find(i.ToString()));}
             }
 
-            TXT_price = res_TR.Find("buy/TXT_price").GetComponent<TextMeshProUGUI>();
+            TXT_price = order_TR.Find("buy/TXT_price").GetComponent<TextMeshProUGUI>();
         }
     }
 
     public class RES_TYP_BUY
     {
-        public string _name;
-        public Transform TR;
-        public Transform icons;
+        public string res_name;
+        public Transform res_TR;
+        public Transform res_icon;
         public TextMeshProUGUI TXT_count;
 
         public RES_TYP_BUY(Transform _tr)
         {
-            TR = _tr;
-            Debug.Log(TR.name);
-            icons = TR.Find("icon");
-            TXT_count = TR.Find("TXT_count").GetComponent<TextMeshProUGUI>();
+            res_TR = _tr;
+            res_icon = res_TR.Find("icon");
+            TXT_count = res_TR.Find("TXT_count").GetComponent<TextMeshProUGUI>();
         }
     }
 }

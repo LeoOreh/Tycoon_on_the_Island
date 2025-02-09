@@ -30,6 +30,7 @@ public class Land : MonoBehaviour
         land_UI.GetComponent<UI_bld_btn>().I();
         land_UI.GetComponent<UI_upgrade_I>().I();
 
+        Warehouse_ADD.I();
         Port_orders_I.I();
 
         Looking.I();

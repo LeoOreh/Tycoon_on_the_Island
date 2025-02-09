@@ -153,6 +153,7 @@ public class GAME_STATE: MonoBehaviour
         public class PORT_order_cls
         {
             public string typ;
+            public string name;
             public List<PORT_order_res> resources = new List<PORT_order_res>();
             public int total_price;
 

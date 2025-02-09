@@ -20,9 +20,9 @@ public class GL_UI : MonoBehaviour
         get { return coins_count_GET_SET; }
         set
         {
-            coins_count_GET_SET = value;
-            coins_txt.text = coins_count.ToString();
-            GL.state.money = value;
+            coins_count_GET_SET += value;
+            coins_txt.text = coins_count_GET_SET.ToString();
+            GL.state.money += value;
         }
     }
 }

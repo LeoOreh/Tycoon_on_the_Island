@@ -39,9 +39,22 @@ public class Port_order_SELL : MonoBehaviour
             }
         }
 
-        if (sell == false) { return; }
+        if (sell == false) { Land.land_UI.GetComponent<UI_inside>().Open_port_err(); return; }
 
         GL_UI.coins_count(state_oredr.total_price);
+
+
+        foreach (GAME_STATE.Land_cls.PORT_order_cls.PORT_order_res res_ord in state_oredr.resources)
+        {
+            foreach (GAME_STATE.Land_cls.RES_CLS state_res in Land.state_land.resources)
+            {
+                if (state_res.res_name == res_ord.res_name)
+                {
+                    state_res.count -= res_ord.count_res;
+                }
+            }
+        }
+
 
         Land.state_land.port_orders.Remove(state_oredr);
 

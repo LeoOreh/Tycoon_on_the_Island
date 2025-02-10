@@ -46,7 +46,7 @@ public class Factory : MonoBehaviour
             if( Land.state_res[r.Key].count < r.Value) { DO = false; }
         }
 
-        if (DO == false) { return; }
+        if (DO == false) { Land.land_UI.GetComponent<UI_inside>().Open_factory_err(); return; }
 
         Land.state_res[out_product].count++;
         Land.state_res[out_product].count_all++;

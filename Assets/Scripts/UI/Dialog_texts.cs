@@ -1,18 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Dialog_texts : MonoBehaviour
 {
-    public static Dictionary<string, string> texts = new Dictionary<string, string>()
-    {
-        { "welcome",    "Привет! Я инженер, и рад приветствовать тебя на нашем удивительном острове. Здесь мы вместе будем создавать уникальные сооружения и технологии. Давай воплотим наши мечты в реальность и изменим этот уголок мира!" },
-        { "buy_cave",   "Прежде чем мы начнем строить наш удивительный остров, нам необходима база для ресурсов. Давай купим пещеру! Она станет надежным источником материалов, необходимых для воплощения наших инженерных идей."},
-        { "buy_cave_up",   "Перед началом активной работы в пещере нам необходимо улучшить ее инфраструктуру. Это повысит эффективность добычи ресурсов и откроет доступ к более ценным материалам. Вложив усилия в развитие пещеры, мы обеспечим остров всем необходимым!"},
+    public static Dictionary<string, string> texts = new Dictionary<string, string>();  
 
-        { "buy_energy", "Отлично! Сейчас для нашего острова нам нужна ветровая станция, чтобы обеспечить его электричеством. Она станет ключевым элементом нашей инфраструктуры и поможет нам реализовать все задумки. Давайте построим станцию и начнем использовать силу ветра для наших нужд!"},
-        { "buy_energy_up","Перед активным использованием станции важно провести ее модернизацию. Это повысит эффективность работы, позволит быстрее обрабатывать ресурсы и улучшить качество обслуживания. Вложив силы в обновление станции, мы обеспечим себе стабильный приток необходимых материалов."},
-        
-        { "last","Отлично справляешься! Ты молодец. Продолжай в том же духе, а я пойду займусь другими задачами. Если что-то понадобится – обращайся."},
-    };
+    public static void Load()
+    {
+        TEXTS txts = new TEXTS();
+        string json = Resources.Load<TextAsset>("Dialog/LNG_RU").text;
+        Debug.Log(json);
+        txts = JsonUtility.FromJson<TEXTS>(json);
+
+        texts["welcome"]        = txts.welcome;
+        texts["buy_cave"]       = txts.buy_cave;
+        texts["buy_cave_up"]    = txts.buy_cave_up;
+        texts["buy_energy"]     = txts.buy_energy;
+        texts["buy_energy_up"]  = txts.buy_energy_up;
+        texts["last"]           = txts.last;
+    }
+
+    [System.Serializable]
+    public class TEXTS 
+    { 
+        public string welcome;
+        public string buy_cave;
+        public string buy_cave_up;
+        public string buy_energy;
+        public string buy_energy_up;
+        public string last;
+    }
 }

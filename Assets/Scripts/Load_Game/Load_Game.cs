@@ -13,5 +13,7 @@ public class Load_Game : MonoBehaviour
             DontDestroyOnLoad(go_state);
         }
         JSON_M.Load();
+
+         Dialog_texts.Load();
     }
 }

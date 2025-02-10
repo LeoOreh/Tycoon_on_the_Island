@@ -5,13 +5,14 @@ using UnityEngine;
 public class Warehouse_ADD : MonoBehaviour
 {
     public static List<RES_typ> res = new List<RES_typ>();
-    static int totalResources = 100;
+    static int totalResources = 1;
 
 
     public static void ADD_res(int count)
     {
         Land.state_buildings["warehouse"].all_res += count; // для подсчета всех собранных ресурсов
 
+        totalResources = count;
         I();
         Distribute();
         Save_res();

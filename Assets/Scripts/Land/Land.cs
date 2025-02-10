@@ -114,7 +114,7 @@ public class Land : MonoBehaviour
                     { 
                         bldg.Value.ui_upgrade.SetActive(true); 
                         if (u.all_res > 0) { bldg.Value.ui_inside.SetActive(true); }
-                        if (u.name == "port" && u.lvl > 0) { bldg.Value.ui_inside.SetActive(true); }
+                        if ((u.name == "port" || u.name == "warehouse" || u.name == "factory") && u.lvl > 0) { bldg.Value.ui_inside.SetActive(true); }
                     }
 
                     bldg.Value.build_lvl[1].SetActive(true);

@@ -82,6 +82,7 @@ public class Inside_cave : MonoBehaviour
         int res = Land.state_buildings[TYP].all_res;
         Land.state_buildings[TYP].all_res = 0;
 
+        Debug.Log(res);
         Warehouse_ADD.ADD_res(res);
 
         TS_one_sec = 0;
